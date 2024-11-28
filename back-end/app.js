@@ -1,3 +1,4 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -7,6 +8,10 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+// Initialize database
+var db = require('./models');
+// Set it to false to avoid deleting and recreating the tables every time
+db.sequelize.sync({ force: false });
 var app = express();
 
 // view engine setup

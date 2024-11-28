@@ -27,3 +27,13 @@ If you are unsure of any instructions for the course assignment, contact out to 
 **REMEMBER** Your Moodle LMS submission must have your repository link **AND** your Github username in the text file.
 
 ---
+
+
+# Installations:
+npm install jsend
+npm install dotenv
+npm install sequelize mysql mysql2
+npm install jsonwebtoken
+npm install swagger-autogen swagger-ui-express
+npm install --save-dev jest
+npm install supertest --save-dev
