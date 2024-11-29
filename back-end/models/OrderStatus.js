@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
     const OrderStatus = sequelize.define('OrderStatus', {
-      status: Sequelize.DataTypes.STRING,
+      typeOfStatus: Sequelize.DataTypes.STRING,
     },{});
     
     OrderStatus.associate = (models) => {

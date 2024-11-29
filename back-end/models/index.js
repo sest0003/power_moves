@@ -93,7 +93,28 @@ async function createDefaultAdmin(User) {
     } else {
       console.log("default Admin already exists");
     }
+}
+
+async function createOrderStatus(OrderStatus) {
+  const count = await OrderStatus.count();
+
+  // If roles exist in the db, dont create data
+  if(count > 0) {
+    return;
   }
+
+  const statusTypes = ['In progress', 'Ordered', 'completed']
+  for (s of statusTypes ) {
+    const [record, created] = await OrderStatus.findOrCreate({
+      where: { typeOfStatus: s },
+      defaults: { typeOfStatus: s }
+    });
+
+    if (created) {
+      console.log("orderStatus hos been created");
+    }
+  }
+}
 
 
 fs.readdirSync(__dirname)
@@ -118,6 +139,7 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize.sync().then(async () => {
 await createRoles(db.Role);
 await createMemberships(db.Membership);
+await createOrderStatus(db.OrderStatus);
 await createDefaultAdmin(db.User);
 }).catch((err) => { 
   console.error('Error when syncing with the database', err);
