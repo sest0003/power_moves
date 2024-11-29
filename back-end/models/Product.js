@@ -6,8 +6,6 @@ module.exports = (sequelize, Sequelize) => {
       unitPrice: Sequelize.DataTypes.FLOAT,
       stock: Sequelize.DataTypes.INTEGER,
       isDeleted: Sequelize.DataTypes.BOOLEAN,
-      brandId: Sequelize.DataTypes.INTEGER,
-      categoryId: Sequelize.DataTypes.INTEGER,
     },{});
 
     Product.associate = (models) => {
