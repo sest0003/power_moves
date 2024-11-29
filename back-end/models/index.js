@@ -17,6 +17,84 @@ const sequelize = new Sequelize(
 const db = {};
 db.sequelize = sequelize;
 
+async function createRoles(Role) {
+  const count = await Role.count();
+
+  // If roles exist in the db, dont create data
+  if(count > 0) {
+    return;
+  }
+
+  const roles = ['admin', 'user']
+  for (let role of roles) {
+    const [record, created] = await Role.findOrCreate({
+      where: { role: role },
+      defaults: { role: role }
+    });
+    if (created) {
+      console.log("roles created");
+    }
+  }
+}
+
+async function createMemberships(Membership) {
+  const count = await Membership.count();
+
+  // If memberships exist in the db, dont create data
+  if(count > 0) {
+    return;
+  }
+
+  const memberships = [
+    { type: 'bronze', discount: 0 },
+    { type: 'silver', discount: 15 },
+    { type: 'gold', discount: 30 },
+  ];
+
+  for (let membership of memberships) {
+    const [record, created] = await Membership.findOrCreate({
+      where: { type: membership.type },
+      defaults: { discount: membership.discount },
+    });
+
+    if (created) {
+        console.log("memberships created");
+    }
+  }
+}
+
+async function createDefaultAdmin(User) {
+  const existingAdmin = await User.findOne({
+    where: { email: 'admin@noroff.no' },
+  });
+
+  // dont create if admin exists
+  if(existingAdmin) {
+    return;
+  }
+  // Create Admin
+  const [admin, created] = await User.findOrCreate ({
+    where: { email: 'admin@noroff.no' },
+    defaults: {
+      firstname: 'Admin',
+      lastname: 'Support',
+      username: 'admin',
+      password: 'P@ssword2023',
+      email: 'admin@noroff.no',
+      address: 'Online',
+      phone: 911,
+      membership_id: 1,
+      role_id: 1
+    },
+  })
+
+    if (created) {
+      console.log("default Admin created");
+    } else {
+      console.log("default Admin already exists");
+    }
+  }
+
 
 fs.readdirSync(__dirname)
   .filter((file) => {
@@ -34,6 +112,17 @@ Object.keys(db).forEach((modelName) => {
     db[modelName].associate(db);
   }
 });
+
+
+// Create data after the models is loaded
+db.sequelize.sync().then(async () => {
+await createRoles(db.Role);
+await createMemberships(db.Membership);
+await createDefaultAdmin(db.User);
+}).catch((err) => { 
+  console.error('Error when syncing with the database', err);
+});
+
 
 
 module.exports = db;

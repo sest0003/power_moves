@@ -18,11 +18,11 @@ router.post("/signup", async (req, res, next) => {
   // #swagger.description = "Add a new user."
   // #swagger.produces = ['JSON']
   // #swagger.responses = [200]
-  const { firstname, lastname, username, email, phone, password } = req.body;
+  const { firstname, lastname, username, email, adress, phone, password } = req.body;
   var salt = crypto.randomBytes(16).toString('hex');
   crypto.pbkdf2(password, salt, 310000, 32, 'sha256', function(err, hashedPassword) {
     if (err) { return next(err); }
-    userService.create(firstname, lastname, username, email, phone, hashedPassword, salt)
+    userService.create(firstname, lastname, username, email, adress, phone, hashedPassword, salt)
     res.jsend.success({"result": "You created an account."});
   });
 });

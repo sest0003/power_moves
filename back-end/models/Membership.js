@@ -1,7 +1,7 @@
 module.exports = (sequelize, Sequelize) => {
     const Membership = sequelize.define('Membership', {
       type: Sequelize.DataTypes.STRING,
-      disconunt: Sequelize.DataTypes.INTEGER,
+      discount: Sequelize.DataTypes.INTEGER,
     },{});
 
     Membership.associate = (models) => {

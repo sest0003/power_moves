@@ -37,3 +37,6 @@ npm install jsonwebtoken
 npm install swagger-autogen swagger-ui-express
 npm install --save-dev jest
 npm install supertest --save-dev
+
+# Referenses
+- models: the strukture is from the class litterature and the data is generated with ai from my ERD diagram. 

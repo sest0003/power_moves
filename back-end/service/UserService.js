@@ -10,12 +10,13 @@ class UserService {
         })
     }
 
-    async create(firstname, lastname, username, email, phone, password, salt) {
+    async create(firstname, lastname, username, email, adress, phone, password, salt) {
         return this.User.create({
             firstname: firstname,
             lastname: lastname,
             username: username,
             email: email,
+            adress: adress,
             phone: phone,
             password: password,
             salt: salt
