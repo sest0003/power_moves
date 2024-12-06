@@ -4,7 +4,7 @@ module.exports = (sequelize, Sequelize) => {
     },{});
     
     OrderStatus.associate = (models) => {
-        OrderStatus.hasMany(models.Order, { foreignKey: 'order_status_id' });
+        OrderStatus.hasMany(models.Order, { foreignKey: 'orderStatusId' });
 };
 
     return OrderStatus;

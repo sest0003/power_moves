@@ -9,10 +9,8 @@ module.exports = (sequelize, Sequelize) => {
     },{});
 
     Product.associate = (models) => {
-        Product.belongsTo(models.Brand, { foreignKey: 'brand_id' });
-        Product.belongsTo(models.Category, { foreignKey: 'category_id' });
-        Product.hasMany(models.CartProduct, { foreignKey: 'product_id' });
-        Product.hasMany(models.OrderProduct, { foreignKey: 'product_id' });
+        Product.belongsTo(models.Brand, { foreignKey: 'brandId' });
+        Product.belongsTo(models.Category, { foreignKey: 'categoryId' });
 };
     return Product;
 };

@@ -5,7 +5,7 @@ module.exports = (sequelize, Sequelize) => {
     },{});
 
     Membership.associate = (models) => {
-        Membership.hasMany(models.User, { foreignKey: 'membership_id' });
+        Membership.hasMany(models.User, { foreignKey: 'membershipId' });
 };
 
     return Membership;

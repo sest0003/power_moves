@@ -1,51 +1,66 @@
 var express = require('express');
 var jsend = require('jsend');
 var router = express.Router();
+var { check, validationResult } = require('express-validator')
 var db = require("../models");
 var crypto = require('crypto');
 var UserService = require("../service/UserService")
 var userService = new UserService(db);
 var bodyParser = require('body-parser')
 var jsonParser = bodyParser.json()
-router.use(jsend.middleware);
 var jwt = require('jsonwebtoken')
 
 router.use(jsend.middleware);
 
 // Post for new users to register / signup
-router.post("/signup", async (req, res, next) => {
-  // #swagger.tags = ['Users']
-  // #swagger.description = "Add a new user."
-  // #swagger.produces = ['JSON']
-  // #swagger.responses = [200]
-  const { firstname, lastname, username, email, adress, phone, password } = req.body;
+router.post("/signup", jsonParser, 
+
+  // Validation of creditials using express-validator
+  [  
+  check('email')
+    .isEmail()
+    .withMessage('not a valid email.'),
+  check('password').isLength({ min: 6 })
+    .withMessage('Password needs to be at least 6 digits long.')
+  ],
+
+  async (req, res, next) => {
+
+    console.log("Request body:", req.body);
+    
+  // Check for email/password errors
+  const errors = validationResult(req);
+  if(!errors.isEmpty()) {
+    return res.jsend.fail({ errors: errors.array() });
+  }
+  let { firstname, lastname, username, email, adress, phone, password } = req.body;
+  const userData = { firstname, lastname, username, email, adress, phone, password };
+  
   var salt = crypto.randomBytes(16).toString('hex');
   crypto.pbkdf2(password, salt, 310000, 32, 'sha256', function(err, hashedPassword) {
     if (err) { return next(err); }
-    userService.create(firstname, lastname, username, email, adress, phone, hashedPassword, salt)
+    
+    // Updates userData
+    userData.password = hashedPassword;
+    userData.salt = salt;
+
+    console.log("User data to create:", userData);
+    
+    // Create User
+    userService.create(userData)
     res.jsend.success({"result": "You created an account."});
   });
 });
 
 // Post for registered users to be able to login
 router.post("/login", jsonParser, async (req, res, next) => {
-   // #swagger.tags = ['Users']
-    // #swagger.description = "Login a user."
-    // #swagger.produces = ['JSON']
-    // #swagger.responses = [200]
-       /* #swagger.parameters['body'] =  {
-    "name": "body",
-    "in": "body",
-      "schema": {
-        $ref: "#/definitions/User"
-      }
-    }
-  */
+
   const { email, password } = req.body;
-    userService.getOne(email).then((data) => {
+    userService.getOneByEmail(email).then((data) => {
         if (data === null) {
             return res.jsend.fail({"result": "no user with these credentials"});
         }
+        console.log(data.salt);
        
 		if (!data.salt) {
             return res.status(500).json({ message: "Salt is undefined." });

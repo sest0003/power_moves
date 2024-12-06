@@ -1,14 +1,10 @@
 module.exports = (sequelize, Sequelize) => {
-    const OrderProduct = sequelize.define('OrderProduct', {
-        productId: Sequelize.DataTypes.INTEGER,
-        orderId: Sequelize.DataTypes.INTEGER,
-        
-
-    },{});
+    const OrderProduct = sequelize.define('OrderProduct', {},
+        {});
     
         OrderProduct.associate = (models) => {
-            OrderProduct.belongsTo(models.Product, { foreignKey: 'product_id' });
-            OrderProduct.belongsTo(models.Order, { foreignKey: 'order_id' });
+            OrderProduct.belongsTo(models.Product, { foreignKey: 'productId' });
+            OrderProduct.belongsTo(models.Order, { foreignKey: 'orderId' });
     };
     
     return OrderProduct;

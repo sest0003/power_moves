@@ -1,0 +1,58 @@
+var express = require('express');
+const isAuth = require('../middleware/middleware');
+var jsend = require('jsend');
+var router = express.Router();
+var db = require("../models");
+var ProductService = require("../service/ProductService");
+var CartService = require("../service/CartService");
+var OrderService = require("../service/OrderService");
+var UserService = require("../service/UserService");
+var bodyParser = require('body-parser');
+var jsonParser = bodyParser.json();
+var jwt = require('jsonwebtoken');
+
+router.use(jsend.middleware);
+
+var productService = new ProductService(db);
+var cartService = new CartService(db);
+var orderService = new OrderService(db);
+var userService = new UserService(db);
+
+router.post('/add/:productId/:units', /* isAuth, */ jsonParser, async (req, res) => {
+
+    const { productId, units } = req.params;
+  
+    try {
+      /*   const user = req.user; */
+        // Find user
+        let user = await userService.getOneById(1);
+
+        // Find product in database
+        const product = await productService.getOne(productId);
+
+
+        if (product === null) {
+            return res.jsend.fail({"result": "no product found."});
+        }
+
+        if(product.stock < units) {
+            return res.jsend.fail({"result": "no enough in stock."});
+        }   
+        
+        // Add product
+        const cart = await cartService.addProductToCart(user, product, units); // req.body is the User object
+
+        // Update stock i product
+        productService.updateStock(productId, units);
+
+        res.jsend.success({ message: "product added to the cart", cart});
+    } catch (err) {
+        console.error(err);
+        res.jsend.error("Error while adding product to cart.");
+    }
+});
+
+
+
+
+ module.exports = router;

@@ -68,6 +68,12 @@ async function createDefaultAdmin(User) {
     where: { email: 'admin@noroff.no' },
   });
 
+  // Hashing password
+  const salt = crypto.randomBytes(16).toString('hex');
+  const password = 'P@ssword2023';
+  const hashedPassword = crypto.pbkdf2Sync(password, salt, 310000, 32, 'sha256');
+
+
   // dont create if admin exists
   if(existingAdmin) {
     return;
@@ -79,12 +85,14 @@ async function createDefaultAdmin(User) {
       firstname: 'Admin',
       lastname: 'Support',
       username: 'admin',
-      password: 'P@ssword2023',
+      password: hashedPassword,
+      salt: salt,
       email: 'admin@noroff.no',
       address: 'Online',
       phone: 911,
-      membership_id: 1,
-      role_id: 1
+      membershipId: 1,
+      roleId: 1,
+      sumOfUnits: 0,
     },
   })
 

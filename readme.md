@@ -40,3 +40,4 @@ npm install supertest --save-dev
 
 # Referenses
 - models: the strukture is from the class litterature and the data is generated with ai from my ERD diagram. 
+- Email validation - https://codingjindo.medium.com/validating-email-password-with-express-validator-96cbe6984bd1

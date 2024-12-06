@@ -4,7 +4,7 @@ module.exports = (sequelize, Sequelize) => {
     },{});
 
     Brand.associate = (models) => {
-        Brand.hasMany(models.Product, { foreignKey: 'brand_id' });
+        Brand.hasMany(models.Product, { foreignKey: 'brandId' });
 };
 
     return Brand;
