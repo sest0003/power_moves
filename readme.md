@@ -44,3 +44,5 @@ npm install supertest --save-dev
 
 - PopulateData: the fetch api is from my semester product on this course. i just chatGTP to figure out how to fit it in my prodject 
 - Raw queries: https://sequelize.org/docs/v6/core-concepts/raw-queries/
+
+

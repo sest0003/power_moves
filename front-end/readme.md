@@ -22,3 +22,8 @@ If you are unsure of any instructions for the course assignment, contact out to 
 **REMEMBER** Your Moodle LMS submission must have your repository link **AND** your Github username in the text file.
 
 ---
+
+# Installations
+npm install -g nodemon
+npm i bootstrap
+npm install axios

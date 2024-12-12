@@ -15,6 +15,11 @@ body {
     width: 100%;
   }
 
+  .product-img {
+    height: 3em;
+    width: 3em;
+  }
+
 p {
   color: #b3b3b3;
   font-weight: 300; }
