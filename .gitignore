@@ -1,0 +1,12 @@
+# Node Modules
+**/node_modules/
+
+# Eniroment variables
+.env
+.env.*
+
+# Frontend
+**/public/css/
+**/public/js/
+**/public/fonts/
+**/public/images/

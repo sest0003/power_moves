@@ -66,6 +66,35 @@ async createOrder(cartId, user) {
      return order;
  }
 
+ async updateOrder(orderId, update) {
+    
+    // Validate allowedfields
+    const allowedFields = ["orderStatusId", "membershipId"];
+    
+    const filteredData = Object.keys(update)
+    .filter(key => allowedFields.includes(key))
+    .reduce((obj, key) => {
+        obj[key] = update[key];
+        return obj;
+    }, {});
+
+    // Convert params to numbers
+    let ConvertedId = parseInt(orderId, 10);  
+   
+    const order = await this.Order.findOne({ where: { id: ConvertedId } });
+    if (!order) return null;
+
+    order.set(filteredData);
+    await order.save();
+
+    return order;
+}
+
+async deleteOrder(id) {
+    const order = await this.Order.destroy({ where: { id: id } });
+    return order > 0;
+}
+
 
 }
 

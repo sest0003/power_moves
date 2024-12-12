@@ -17,7 +17,6 @@ class CartService {
     }
 
     async addProductToCart(user, product, units) {
-        console.log("userid: " + user.id);
         // Try to find existing cart
         let cart = await this.Cart.findOne({ where: { userId: user.id}, });
         

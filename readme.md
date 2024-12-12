@@ -41,3 +41,6 @@ npm install supertest --save-dev
 # Referenses
 - models: the strukture is from the class litterature and the data is generated with ai from my ERD diagram. 
 - Email validation - https://codingjindo.medium.com/validating-email-password-with-express-validator-96cbe6984bd1
+
+- PopulateData: the fetch api is from my semester product on this course. i just chatGTP to figure out how to fit it in my prodject 
+- Raw queries: https://sequelize.org/docs/v6/core-concepts/raw-queries/

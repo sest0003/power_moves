@@ -9,8 +9,8 @@ module.exports = (sequelize, Sequelize) => {
     },{});
 
     Product.associate = (models) => {
-        Product.belongsTo(models.Brand, { foreignKey: 'brandId' });
-        Product.belongsTo(models.Category, { foreignKey: 'categoryId' });
+        Product.belongsTo(models.Brand, { foreignKey: 'brandId', as: 'Brand' });
+        Product.belongsTo(models.Category, { foreignKey: 'categoryId', as: 'Category' });
 };
     return Product;
 };

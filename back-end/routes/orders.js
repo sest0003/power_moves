@@ -19,7 +19,7 @@ var userService = new UserService(db);
 var orderService = new OrderService(db, userService);
 
 
-router.post('/cart/checkout/now/:cartId', jsonParser, /* isAuth, */ async (req, res) => {
+router.post('/cart/checkout/now/:cartId', isAuth, jsonParser, async (req, res) => {
     
     const { cartId } = req.params;
     
@@ -38,14 +38,12 @@ router.post('/cart/checkout/now/:cartId', jsonParser, /* isAuth, */ async (req, 
     }
 });
 
-router.get('/orders', jsonParser, /* isAuth, */ async (req, res) => {
+router.get('/', jsonParser, isAuth, async (req, res) => {
 
-    const { cartId } = req.params;
+     const { cartId } = req.params;
+
     try { 
-       /*  const user = req.user; */
-        // Find user
-       let user = await userService.getOneById(1);
-       let orders = await orderService.getAll(user.id);
+       let orders = await orderService.getAll();
        res.jsend.success(orders);
    } catch (err) {
        console.error(err);
@@ -53,5 +51,41 @@ router.get('/orders', jsonParser, /* isAuth, */ async (req, res) => {
    }
    });
 
+router.put('/:orderId', isAuth, async (req, res) => {
+
+    const { orderId } = req.params;
+    const updateData = req.body;
+    
+    try {
+        let order = await orderService.updateOrder(orderId, updateData);
+        if (order === null) {
+            return res.jsend.fail({"result": "no order found."});
+        }
+        res.jsend.success(order);
+        } catch (err) {
+            console.error(err);
+            res.jsend.error("Error updating order.");
+        }
+});
+
+router.delete('/:orderId/', isAuth, async (req, res) => {
+  
+    const { orderId } = req.params;
+
+    if (!orderId) {
+        return res.jsend.fail({ "result": "Order id is missing in the url." });
+    }
+
+    try {
+        const order = await orderService.deleteOrder(orderId);
+        if (!order) {
+            return res.jsend.fail({ "result": "order not found or not authorized." });
+        }
+        res.jsend.success({ "result": "order deleted successfully." });
+    } catch (err) {
+        console.log(err);
+        res.jsend.error("Error deleting order.");
+    }
+});
 
 module.exports = router;

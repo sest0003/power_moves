@@ -1,14 +1,45 @@
 module.exports = (sequelize, Sequelize) => {
     const User = sequelize.define('User', {
-      firstname: Sequelize.DataTypes.STRING,
-      lastname: Sequelize.DataTypes.STRING,
-      username: Sequelize.DataTypes.STRING,
-      email: Sequelize.DataTypes.STRING,
-      adress: Sequelize.DataTypes.STRING,
-      phone: Sequelize.DataTypes.INTEGER,
-      password: Sequelize.DataTypes.BLOB,
-      salt: Sequelize.DataTypes.BLOB,
-      sumOfUnits: Sequelize.DataTypes.INTEGER,
+      firstname: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+      },
+      lastname: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+      },
+      username: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+        unique: true
+      },
+      email: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true
+        }
+      },
+      adress: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+      },
+      phone: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false
+      },
+      password: {
+        type: Sequelize.DataTypes.BLOB,
+        allowNull: false
+      },
+      salt: {
+        type: Sequelize.DataTypes.BLOB,
+        allowNull: false
+      },
+      sumOfUnits: {
+        type: Sequelize.DataTypes.INTEGER
+      }
     },{});
 
     User.associate = (models) => {

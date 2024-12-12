@@ -6,12 +6,15 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 // Routers
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var authRouter = require('./routes/auth');
-var productRouter = require('./routes/products');
-var cartRouter = require('./routes/carts');
-var orderRouter = require('./routes/orders');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const authRouter = require('./routes/auth');
+const populateRouter = require('./routes/populate')
+const productRouter = require('./routes/products');
+const cartRouter = require('./routes/carts');
+const orderRouter = require('./routes/orders');
+const brandRouter = require('./routes/brands');
+const categoryRouter = require('./routes/categories');
 
 // Initialize database
 var db = require('./models');
@@ -32,10 +35,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Basic endpoints for routers
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/', authRouter);
+app.use('/auth', authRouter);
+app.use('/init', populateRouter);
 app.use('/products', productRouter);
 app.use('/cart', cartRouter);
-app.use('/', orderRouter);
+app.use('/orders', orderRouter);
+app.use('/brands', brandRouter);
+app.use('/categories', categoryRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

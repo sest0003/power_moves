@@ -13,7 +13,7 @@ var jwt = require('jsonwebtoken')
 router.use(jsend.middleware);
 
 // Post for new users to register / signup
-router.post("/signup", jsonParser, 
+router.post("/register", jsonParser, 
 
   // Validation of creditials using express-validator
   [  
@@ -25,8 +25,6 @@ router.post("/signup", jsonParser,
   ],
 
   async (req, res, next) => {
-
-    console.log("Request body:", req.body);
     
   // Check for email/password errors
   const errors = validationResult(req);
@@ -43,8 +41,6 @@ router.post("/signup", jsonParser,
     // Updates userData
     userData.password = hashedPassword;
     userData.salt = salt;
-
-    console.log("User data to create:", userData);
     
     // Create User
     userService.create(userData)
@@ -87,9 +83,6 @@ router.post("/login", jsonParser, async (req, res, next) => {
     });
 });
 
-router.get('/fail', (req, res) => {
-	return res.status(401).jsend.error({ statusCode: 401, message: 'message', data: 'data' });
-});
 
 module.exports = router;
 
