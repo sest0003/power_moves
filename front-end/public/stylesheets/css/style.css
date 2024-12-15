@@ -20,6 +20,29 @@ body {
     width: 3em;
   }
 
+
+  .search-form {
+    gap: 0.7em;
+  }
+
+  .left-s-form {
+    margin-right: 13em;
+    display: flex;
+    gap: 1em;
+    
+  }
+
+  .right-s-form {
+    display: flex;
+    gap: 0.5em;
+  }
+ 
+  .btn-clear {
+    background: black;
+  }
+
+
+
 p {
   color: #b3b3b3;
   font-weight: 300; }

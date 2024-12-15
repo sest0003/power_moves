@@ -58,6 +58,22 @@ router.post('/search/brand/:brandId', async (req, res) => {
        }
 });
 
+router.post('/search/:name', async (req, res) => {
+
+    const { name } = req.params;
+
+   try {
+       let products = await productService.getByPartialName(name);
+       if (!products) {
+           return res.jsend.fail({"result": "no product found."});
+       }
+       res.jsend.success({data: products});
+       } catch (err) {
+           console.error(err);
+           res.jsend.error("Error finding products.");
+       }
+});
+
 router.post('/add', jsonParser, async (req, res) => {
 
     const { name, description, imageUrl, unitPrice, stock, brandId, categoryId  } = req.body;

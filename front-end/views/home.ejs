@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <lin-*-**k href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href="/fonts/icomoon/style.css">
 
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/stylesheets/css/owl.carousel.min.css">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/stylesheets/css/bootstrap.min.css">
@@ -51,29 +51,37 @@
     </nav>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark search-nav">
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown button
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
+      <form class="form-inline my-2 my-lg-0 search-form" action="/products/search" method="post">
+        <div class="left-s-form">
+        
+          <input class="form-control mr-sm-2" id="search" name="searchValue" type="search" placeholder="Search" aria-label="Search">
+        
+        <div>
+          <select class="form-control" id="categoryDropdown" name="catId">
+            <option value="" selected disabled>Category</option>
+            <% uniqueCategories.forEach(function(category) { %>
+            <option value="<%= category.id %>"><%= category.name %></option>
+            <% }); %>
+          </select>
         </div>
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown button
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
+
+        <div>
+          <select class="form-control" id="brandDropdown" name="brandId">
+            <option value="" selected disabled>Brand</option>
+            <% uniqueBrands.forEach(function(brand) { %>
+            <option value="<%= brand.id %>"><%= brand.name %></option>
+            <% }); %>
+          </select>
         </div>
+
+        <!-- Hidden input for searchtype -->
+        <input type="text" id="search-type" name="searchType">
+       
+      </div>
+        <div class="right-s-form">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <button class="btn btn-outline-success my-2 my-sm-0 btn-clear" type="submit">Clear</button>
+        </div>
       </form>
     </nav>
 
@@ -121,10 +129,10 @@
                 <%= product.isDeleted %>
               </td>
               <td>
-                <%= product.Brand.name %>
+                <%= product.Brand %>
               </td>
               <td>
-                <%= product. Category.name %>
+                <%= product.Category %>
               </td>
           
             <% }); %>
@@ -139,9 +147,9 @@
     
     
 
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script>
   </body>
 </html>

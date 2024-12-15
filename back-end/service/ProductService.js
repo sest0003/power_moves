@@ -53,9 +53,14 @@ class ProductService {
     async getByCategory(categoryId) {
         try {
             const query = `
-                SELECT *
+                SELECT 
+                    products.*,
+                    brands.name AS Brand,
+                    categories.name AS Category
                 FROM products
-                WHERE categoryId = ?
+                LEFT JOIN brands ON products.brandId = brands.id
+                LEFT JOIN categories ON  products.categoryId = categories.id
+                WHERE products.categoryId = ?
             `;
 
             const products = await this.client.query(query, {
@@ -69,12 +74,43 @@ class ProductService {
             }
        }
 
+       async getByPartialName(productName) {
+        try {
+            const query = `
+                SELECT 
+                    products.*,
+                    brands.name AS Brand,
+                    categories.name AS Category
+                FROM products
+                LEFT JOIN brands ON products.brandId = brands.id
+                LEFT JOIN categories ON  products.categoryId = categories.id
+                WHERE products.name LIKE ?
+                `;
+
+            const [products] = await this.client.query(query, {
+                replacements: [`${productName}%`] // I use % to find names that starts with some letters, 
+                // I use replecments to protect against query injections
+            });
+
+            return products.length > 0 ? products : null;
+
+            } catch (error) {
+                console.error("sql error", error);
+                throw new Error("Database error occured");
+            }
+       }
+
        async getByBrand(brandId) {
         try {
             const query = `
-                SELECT *
+                SELECT 
+                    products.*,
+                    brands.name AS Brand,
+                    categories.name AS Category
                 FROM products
-                WHERE brandId = ?
+                LEFT JOIN brands ON products.brandId = brands.id
+                LEFT JOIN categories ON  products.categoryId = categories.id
+                WHERE products.brandId = ?
             `;
 
             const products = await this.client.query(query, {
@@ -84,9 +120,12 @@ class ProductService {
             return products.length > 0 ? products : null;
 
             } catch (error) {
+                console.error("sql error", error);
                 throw new Error("Database error occured");
             }
        }
+
+       
     
 
     async updateProduct(productId, update) {
