@@ -1,4 +1,5 @@
 const axios = require('axios');
+const e = require('express');
 
 async function fetchProducts() {
     try {
@@ -47,4 +48,28 @@ async function fetchProductsByPartialName(name) {
     }
 }
 
-module.exports = { fetchProducts, fetchProductsByBrand, fetchProductsByCategory, fetchProductsByPartialName };
+async function addProduct(product) {
+    try { 
+        const url = 'http://localhost:3000/products/add';
+        const response = await axios.post(url, {
+            name: product.name,
+            description: product.desc,
+            imageUrl: product.imageUrl,
+            unitPrice: product.price,
+            stock: product.stock,
+            brandId: product.brandId,
+            categoryId: product.categoryId
+        });
+		return response.data 
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports = { 
+    fetchProducts, 
+    fetchProductsByBrand, 
+    fetchProductsByCategory, 
+    fetchProductsByPartialName, 
+    addProduct 
+};
