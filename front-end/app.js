@@ -3,10 +3,14 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const session = require('express-session');
+const flash  = require('connect-flash');
 
 // Routes
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var productRouter = require('./routes/products');
+var brandRouter = require('./routes/brands');
 
 var app = express();
 
@@ -20,9 +24,27 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname + '/node_modules/bootstrap/dist')); // Adding mapping for bootstrap
-// Basic endpoints for routers
+
+// reg.flash function 
+app.use(session({
+  secret: 'secret-key',
+  resave: false,
+  saveUninitialized: true,
+}));
+
+app.use(flash());
+
+app.use((req,res,next) => {
+  res.locals.message = req.flash('message');
+  res.locals.messageType = req.flash('messageType');
+  next();
+});
+
+// Implementing routers
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/products', productRouter);
+app.use('/brands', brandRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

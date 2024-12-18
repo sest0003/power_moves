@@ -1,3 +1,5 @@
+const { Sequelize } = require("sequelize");
+
 class ProductService {
     constructor(db) {
         this.client = db.sequelize;
@@ -35,18 +37,35 @@ class ProductService {
 
     async getAll() {
         return await this.Product.findAll({
+            attributes: [
+                'id',
+                'name',
+                'description',
+                'imageUrl',
+                'unitPrice',
+                'stock',
+                'isDeleted',
+                'brandId',
+                'categoryId',
+                // I deconstruct the response so it fits in the frondend table
+                //   <%= product.Brand %>
+                [Sequelize.col('Brand.name'), 'Brand'],
+                [Sequelize.col('Category.name'), 'Category'],
+            ],
+            
             include: [
                 {
                     model: this.client.models.Brand,
+                    attributes: [],
                     as: 'Brand',
-                    attributes: ['name'],
                 },
                 {
                     model: this.client.models.Category,
+                    attributes: [],
                     as: 'Category',
-                    attributes: ['name'],
                 },
             ],
+            raw: true // makes the result not nested
        });
     }
 
@@ -129,6 +148,7 @@ class ProductService {
     
 
     async updateProduct(productId, update) {
+        
         // Validate allowedfields
         const allowedFields = ["name", "description", "imageUrl", "unitPrice", "stock", "isDeleted"];
         

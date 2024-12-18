@@ -1,74 +1,64 @@
 var express = require('express');
 var router = express.Router();
-const productService = require('../service/ProductService');
-const getDropdownData = require('../middleware/middleware');
+const loginService = require('../service/LoginService');
+const { getDropdownData } = require('../middleware/middleware');
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('login', { title: 'Express' });
 });
 
-// getDropdownData is a middleware to get all default products 
-// for the dropdownmenues and table to avoid repetions in the routes
-router.get('/home', getDropdownData, function(req, res, next) {
-      res.render('home', { 
-        products: res.locals.products, 
-        uniqueBrands: res.locals.uniqueBrands, 
-        uniqueCategories: res.locals.uniqueCategories 
-      });
-});  
-
-
- router.post('/products/search', getDropdownData, async function(req, res, next) {
+router.post('/login', getDropdownData, async function(req, res, next) {  
   try {
-    const { searchType, catId, brandId, searchValue } = req.body;
 
-    let products;
-    if(searchType === 'category') {
-      console.log("cat");
-      products = await productService.fetchProductsByCategory(catId);
-    } else if(searchType === 'brand') {
-      products = await productService.fetchProductsByBrand(brandId);
-    } else if(searchType === 'search') {
-      console.log('search');
-      products = await productService.fetchProductsByPartialName(searchValue);
-    }
-    // I use flat to break down det nested Arrays
-    products = products.flat();
-    
-      res.render('home', { products, 
-        uniqueBrands: res.locals.uniqueBrands, 
-        uniqueCategories: res.locals.uniqueCategories 
-      });
-
-      } catch (error) {
-          console.error('error while fetching products')
-          res.status(500).send('error loading products')
+      const { email, password } = req.body;
+      if (!email || !password) {
+        return res.status(401).render('login', {
+          message: 'Email or password i missing. Please try again.',
+          messageType: 'error'
+        });      
       }
- });
 
- router.post('/products/add', getDropdownData, async function(req, res, next) {
-  
-  try {
-    const { name, desc, price, stock, imageUrl, brandId, categoryId } = req.body;
+      const user = await loginService.login(email, password);
+      const token = user.data.token;
+      console.log("token " + token);
+      
 
-      const product = await productService.addProduct(req.body);
-
-      res.render('home', {
-        message: 'Product was successfully created',
-        messageType: 'success',
-        products: res.locals.products, 
-        uniqueBrands: res.locals.uniqueBrands, 
-        uniqueCategories: res.locals.uniqueCategories 
-        });
-
-      } catch (error) {
-        res.render('home', {
-          message: 'Error Adding Product. ${error.message}. Please try again.',
+      if (!user || !token) {
+        return res.status(401).render('login', {
+          message: 'unauthorized user. Please try again.',
           messageType: 'error',
+        });      
+      }
+
+      // I Store the token in the response in a cookie
+      // the cookie get ent with other endpoints. 
+      res.cookie('jwt', token, {
+        httpOnly: true, // makes it unavaible in javascript
+        secure: false,
+        maxAge: 3600000  
+      });
+
+      return res.status(200).render('products', {
+        user,
+        products: res.locals.products, 
+        uniqueBrands: res.locals.uniqueBrands, 
+        uniqueCategories: res.locals.uniqueCategories 
         });
+
+      } catch (error) {
+        console.error(error.message);
+        return res.status(500).render('login', {
+          message: 'Email or password i missing. Please try again.',
+          messageType: 'error'
+        });  
       }
  });
+
+ router.get('/logout', async function(req, res, next) {
+  res.clearCookie('jwt');
+  res.redirect('/');
+});
 
 
 module.exports = router;

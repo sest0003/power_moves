@@ -1,11 +1,11 @@
 const axios = require('axios');
-const e = require('express');
+const express = require('express');
 
 async function fetchProducts() {
     try {
         const response = await axios.get('http://localhost:3000/products/all');
         const productData = response?.data?.data?.data?.slice(0, 20) || [];
-		return productData;
+        return productData;
     } catch (error) {
         console.log('Error fetching products:', error);
         return []; 
@@ -66,10 +66,35 @@ async function addProduct(product) {
     }
 }
 
+async function editProduct(product) {
+    try { 
+        /* Change isdelted to boolean */
+        let isDeleted = product.isDeleted === 'on' ? true : 'false';
+
+        const url = `http://localhost:3000/products/edit/${product.id}`;
+        const response = await axios.put(url, {
+            name: product.name,
+            description: product.desc,
+            imageUrl: product.imageUrl,
+            unitPrice: product.price,
+            stock: product.stock,
+            isDeleted: isDeleted,
+            brandId: product.brandId,
+            categoryId: product.categoryId
+        });
+		return response.data 
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+
 module.exports = { 
     fetchProducts, 
     fetchProductsByBrand, 
     fetchProductsByCategory, 
     fetchProductsByPartialName, 
-    addProduct 
+    addProduct,
+    editProduct
 };

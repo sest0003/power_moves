@@ -6,6 +6,8 @@ body {
   background-color: #19191d;
   font-weight: 300; }
 
+
+
   .search-nav {
     border-radius: 5px;
     padding: 0.7em;
@@ -15,7 +17,18 @@ body {
 
   .top-nav {
     width: 100%;
+    padding-left: 1em;
   }
+
+.logout{
+  font-size: 12px;
+  margin-left: 1em;
+}
+
+.logout-li {
+  display: flex;
+  align-items: center;
+}
 
   .product-img {
     height: 3em;
@@ -50,27 +63,59 @@ body {
   }
 
   .plus {
+    width: 100%;
     color: black;
     background: #2f8b4b;
+    margin-bottom: 2em;
 }
 
 .edit {
   color: black;
 }
+
+.delete {
+  background: red;
+}
   
 
-  .container {
-    margin-top: 3em;
-  }
+.container {
+  margin-top: 3em;
+}
 
 .error-head {
   background: rgb(218, 133, 15);
 }
 
+.switch-div {
+    font-weight: 400;
+    padding: 6px 0px 0px 0px;
+    padding-bottom: 8px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    gap: 4em;
+}
 
+.switch-div input {
+  font-size: 20px;
+}
 
+#categoryDropdown {
+  width: 7em;
+}
 
+#brandDropdown {
+  width: 7em;
+}
 
+.alert-danger, .alert-success {
+  padding: 3em;
+  position: fixed;
+  top: 10%;
+  z-index: 9999;
+  background: white; 
+  font-size: 1.4em;
+}
 
 
   .navbar-brand svg {
@@ -96,8 +141,6 @@ a {
   a, a:hover {
     text-decoration: none !important; }
 
-.content {
-  padding: 2rem 0; }
 
 h2 {
   font-size: 20px;
@@ -108,7 +151,9 @@ h2 {
   .custom-table thead tr, .custom-table thead th {
     border-top: none;
     border-bottom: none !important;
-    color: #fff; }
+    color: #fff; 
+    background-color: #19191d;
+  }
   .custom-table tbody th, .custom-table tbody td {
     color: #777;
     font-weight: 400;

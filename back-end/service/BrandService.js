@@ -11,13 +11,13 @@ class BrandService {
     }
 
     async create(name) {
-        return this.Product.create({
+        return this.Brand.create({
             name: name
         });
     }
 
     async getAll() {
-        return await this.Product.findAll({});
+        return await this.Brand.findAll({});
     }
 
     

@@ -53,10 +53,11 @@ router.post("/login", jsonParser, async (req, res, next) => {
 
   const { email, password } = req.body;
     userService.getOneByEmail(email).then((data) => {
+      console.log("data " + data);
         if (data === null) {
             return res.jsend.fail({"result": "no user with these credentials"});
         }
-        console.log(data.salt);
+        
        
 		if (!data.salt) {
             return res.status(500).json({ message: "Salt is undefined." });

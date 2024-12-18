@@ -89,7 +89,7 @@ router.put('/:brandId', async (req, res) => {
         }
 });
 
-router.delete('/:brandId', async (req, res) => {
+router.delete('/delete/:brandId', async (req, res) => {
   
     const { brandId } = req.params;
 

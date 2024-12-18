@@ -47,7 +47,6 @@ class PopulateService {
             where: { name: product.category }
         });
 
-        console.log("category " + category);
 
         await this.Product.create({
             name: product.name,

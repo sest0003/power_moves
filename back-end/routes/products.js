@@ -7,7 +7,7 @@ var ProductService = require("../service/ProductService")
 var productService = new ProductService(db);
 var bodyParser = require('body-parser')
 var jsonParser = bodyParser.json()
-var jwt = require('jsonwebtoken')
+
 
 router.use(jsend.middleware);
 
@@ -74,7 +74,7 @@ router.post('/search/:name', async (req, res) => {
        }
 });
 
-router.post('/add', jsonParser, async (req, res) => {
+router.post('/add', isAuth, jsonParser, async (req, res) => {
 
     const { name, description, imageUrl, unitPrice, stock, brandId, categoryId  } = req.body;
 
@@ -90,11 +90,11 @@ router.post('/add', jsonParser, async (req, res) => {
     }
 });
 
-router.put('/:productId', isAuth, async (req, res) => {
+router.put('/edit/:productId', async (req, res) => {
 
     const { productId } = req.params;
     const updateData = req.body;
-    
+  
     try {
         let product = await productService.updateProduct(productId, updateData);
         if (!product) {

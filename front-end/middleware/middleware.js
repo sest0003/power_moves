@@ -18,5 +18,9 @@ async function getDropdownData(req, res, next) {
     }
 }
 
-module.exports = getDropdownData;
+
+
+module.exports = {
+    getDropdownData
+};
 
