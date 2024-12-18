@@ -12,6 +12,7 @@
    
   <%- include('./partials/navbar.ejs') %>
   
+  <h2>Products</h2>
  
   <div class="content">
 
@@ -82,10 +83,10 @@
               <td>
                 <img class="product-img" src="<%= product.imageUrl %>" alt="">
               </td>
-              <td>
+              <td class="desc">
                 <%= product.name %>
               </td>
-              <td>
+              <td class="desc">
                 <%= product.description %>
               </td>
               <td>

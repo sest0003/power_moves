@@ -32,8 +32,8 @@ router.get('/', async function(req, res, next) {
     const brand = await brandService.addBrand(req.body);
 
       if(!brand) {
-        res.status(401);
-        req.flash('message', 'Failed creating brand. Please try again');
+        res.status(404);
+        req.flash('message', 'Failed to find brand. Please try again');
         req.flash('messageType', 'error');
           return res.redirect('/brands');  
       }

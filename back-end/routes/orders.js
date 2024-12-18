@@ -19,39 +19,26 @@ var userService = new UserService(db);
 var orderService = new OrderService(db, userService);
 
 
-router.post('/cart/checkout/now/:cartId', isAuth, jsonParser, async (req, res) => {
-    
-    const { cartId } = req.params;
-    
-    try { 
-       /*  const user = req.user; */
-        // Find user
-       let user = await userService.getOneById(1);
-
-        // Create Order
-        const order = await orderService.createOrder(cartId, user);
-
-        res.jsend.success({ message: "Order created.", order});
-    } catch (err) {
-        console.error(err);
-        res.jsend.error("Error while creating order.");
-    }
-});
-
-router.get('/', jsonParser, isAuth, async (req, res) => {
+router.get('/all', jsonParser, async (req, res) => {
 
      const { cartId } = req.params;
 
     try { 
        let orders = await orderService.getAll();
+       
+       if(!orders) {
+        return res.jsend.fail({"result": "no order found."});
+       } 
+       
        res.jsend.success(orders);
+
    } catch (err) {
        console.error(err);
-       res.jsend.error("found no orders.");
+       res.jsend.error("Error finding orders.");
    }
-   });
+});
 
-router.put('/:orderId', isAuth, async (req, res) => {
+router.put('/:orderId', async (req, res) => {
 
     const { orderId } = req.params;
     const updateData = req.body;
@@ -68,7 +55,7 @@ router.put('/:orderId', isAuth, async (req, res) => {
         }
 });
 
-router.delete('/:orderId/', isAuth, async (req, res) => {
+router.delete('/:orderId/', async (req, res) => {
   
     const { orderId } = req.params;
 

@@ -13,9 +13,7 @@ class OrderService {
     }
 
     async getAll(userId) {
-        const orders = await this.Order.findAll({
-            where: { userId: userId }
-        });
+        const orders = await this.Order.findAll({});
         return orders;
     }
 

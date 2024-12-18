@@ -15,8 +15,9 @@ router.use(jsend.middleware);
 
 var productService = new ProductService(db);
 var cartService = new CartService(db);
-var orderService = new OrderService(db);
 var userService = new UserService(db);
+var orderService = new OrderService(db, userService);
+
 
 router.post('/add/:productId/:units', /* isAuth, */ jsonParser, async (req, res) => {
 
@@ -49,6 +50,25 @@ router.post('/add/:productId/:units', /* isAuth, */ jsonParser, async (req, res)
     } catch (err) {
         console.error(err);
         res.jsend.error("Error while adding product to cart.");
+    }
+});
+
+router.post('/checkout/now/:cartId', jsonParser, async (req, res) => {
+    
+    const { cartId } = req.params;
+    
+    try { 
+       /*  const user = req.user; */
+        // Find user
+       let user = await userService.getOneById(1);
+
+        // Create Order
+        const order = await orderService.createOrder(cartId, user);
+
+        res.jsend.success({ message: "Order created.", order});
+    } catch (err) {
+        console.error(err);
+        res.jsend.error("Error while creating order.");
     }
 });
 
