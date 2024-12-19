@@ -6,6 +6,10 @@ class UserService {
         this.Role = db.Role;
     }
 
+    async getAll() {
+        return await this.User.findAll({});
+    }
+
     async getOneByEmail(email) {
         return this.User.findOne({
             where: {Email: email}

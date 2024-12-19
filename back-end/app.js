@@ -15,6 +15,7 @@ const cartRouter = require('./routes/carts');
 const orderRouter = require('./routes/orders');
 const brandRouter = require('./routes/brands');
 const categoryRouter = require('./routes/categories');
+const membershipRouter = require('./routes/memberships');
 
 // Initialize database
 var db = require('./models');
@@ -42,6 +43,7 @@ app.use('/cart', cartRouter);
 app.use('/orders', orderRouter);
 app.use('/brands', brandRouter);
 app.use('/categories', categoryRouter);
+app.use('/memberships',  membershipRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -27,6 +27,10 @@ If you are unsure of any instructions for the course assignment, contact out to 
 Code to store a token in the frontend server route: https://stackoverflow.com/questions/56524264/how-to-store-jwt-in-cookie-and-pass-it-to-authentication-function-when-redirecti
 https://www.geeksforgeeks.org/express-js-req-cookies-property/
 
+Navbar icon image - chatgtp generated
+
+login - https://codepen.io/soufiane-khalfaoui-hassani/pen/LYpPWda
+
 
 # Installations
 npm install -g nodemon

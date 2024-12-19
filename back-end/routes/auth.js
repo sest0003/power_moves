@@ -14,7 +14,6 @@ router.use(jsend.middleware);
 
 // Post for new users to register / signup
 router.post("/register", jsonParser, 
-
   // Validation of creditials using express-validator
   [  
   check('email')
