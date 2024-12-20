@@ -1,14 +1,13 @@
 var express = require('express');
 var router = express.Router();
 const categoryService = require('../service/CategoryService');
-const { getDropdownData } = require('../middleware/middleware');
+const { isAuthAdmin } = require('../middleware/middleware');
 
 
 
-router.get('/', async function(req, res, next) {
+router.get('/', isAuthAdmin, async function(req, res, next) {
   try {
-
-        const categories = await categoryService.fetchCategories();
+        const categories = await categoryService.fetchCategories(req);
         res.render('categories', { categories });
     
           } catch (error) {
@@ -19,53 +18,53 @@ router.get('/', async function(req, res, next) {
           }
      });
 
- router.post('/add', async function(req, res, next) {
+ router.post('/add', isAuthAdmin, async function(req, res, next) {
   
   const { name } = req.body;
 
   try {
     
-      const category = await categoryService.addCategory(req.body);
+      const category = await categoryService.addCategory(req);
 
-      req.flash('message', 'Brand was successfully created!');
+      req.flash('message', 'Categories was successfully created!');
       req.flash('messageType', 'success');
       res.redirect('/categories');  
 
       } catch (error) {
-       console.error('Error creating brand', error.message);
-       req.flash('message', 'Error creating brand. Please try again');
+       console.error('Error creating category', error.message);
+       req.flash('message', 'Error creating bracategorynd. Please try again');
        req.flash('messageType', 'error');  
        res.redirect('/categories');  
       }
  });
 
- router.post('/edit', async function(req, res, next) {
+ router.post('/edit', isAuthAdmin, async function(req, res, next) {
   
   const {id, name} = req.body;
   
   try {
     
-    const brand = await categoryService.editCategory(req.body);
+    const category = await categoryService.editCategory(req);
 
       req.flash('message', 'Category was successfully changed!');
       req.flash('messageType', 'success');
       res.redirect('/categories');  
 
     } catch (error) {
-      console.error('Error editing brand', error.message);
-      req.flash('message', 'Error editing brand. Please try again');
+      console.error('Error editing Category', error.message);
+      req.flash('message', 'Error editing category. Please try again');
       req.flash('messageType', 'error');  
       res.redirect('/categories');  
      }
  });
 
- router.post('/delete', async function(req, res, next) {
+ router.post('/delete', isAuthAdmin, async function(req, res, next) {
   
   const {categoryId} = req.body;
   
   try {
     
-    const result = await categoryService.deleteCategory(categoryId);
+    const result = await categoryService.deleteCategory(req);
 
     if(!result) {
       res.status(401);

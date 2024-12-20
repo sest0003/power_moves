@@ -1,12 +1,13 @@
 var express = require('express');
 var router = express.Router();
 const membershipService = require('../service/MembershipService');
+const { isAuthAdmin } = require('../middleware/middleware');
 
 
 
-router.get('/', async function(req, res, next) {
+router.get('/', isAuthAdmin, async function(req, res, next) {
   try {
-          const memberships = await membershipService.fetchMemberships();
+          const memberships = await membershipService.fetchMemberships(req);
 
           if(!memberships) {
             req.flash('message', 'failed to find memberships. Please try again');
@@ -24,13 +25,13 @@ router.get('/', async function(req, res, next) {
           }
 });
 
- router.post('/add', async function(req, res, next) {
+ router.post('/add', isAuthAdmin, async function(req, res, next) {
 
   const { type, discount } = req.body;
 
   try {
 
-    const membership = await membershipService.addMembership(req.body);
+    const membership = await membershipService.addMembership(req);
 
       req.flash('message', 'membership was successfully created!');
       req.flash('messageType', 'success');
@@ -44,13 +45,15 @@ router.get('/', async function(req, res, next) {
       }
  });
 
- router.post('/edit', async function(req, res, next) {
+ router.post('/edit', isAuthAdmin, async function(req, res, next) {
   
   const {id, type, discount} = req.body;
+  console.log(req.body);
   
   try {
 
-    const membership = await membershipService.editMembership(req.body);
+    const membership = await membershipService.editMembership(req);
+    console.log(membership);
 
       req.flash('message', 'membership was successfully edited!');
       req.flash('messageType', 'success');
@@ -64,13 +67,13 @@ router.get('/', async function(req, res, next) {
        }
  });
 
- router.post('/delete', async function(req, res, next) {
+ router.post('/delete', isAuthAdmin, async function(req, res, next) {
   
   const {membershipsId} = req.body;
   
   try {
     
-      const result = await membershipService.deleteMembership(membershipsId);
+      const result = await membershipService.deleteMembership(req);
 
       req.flash('message', 'membership was successfully deleted!');
       req.flash('messageType', 'success');

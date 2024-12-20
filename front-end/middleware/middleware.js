@@ -9,7 +9,7 @@ const { token } = require('morgan');
 // Middleware function get dropdown data
 async function getDropdownData(req, res, next) {
     try {
-        const productData = await productService.fetchProducts();
+        const productData = await productService.fetchProducts(req);
         res.locals.products = productData;
         res.locals.uniqueBrands = filterBrands(productData);
         res.locals.uniqueCategories = filterCategories(productData);
@@ -21,6 +21,8 @@ async function getDropdownData(req, res, next) {
     }
 }
 
+/* Middleware to validate user admin in the frontend app 
+and send the token to the backend app via req.user  */
 async function isAuthAdmin(req, res, next) {
     if(req.session.token && req.session.role === 1) {
         req.user = { token: `Bearer ${req.session.token}`, role: req.session.role }

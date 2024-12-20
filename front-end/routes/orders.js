@@ -1,12 +1,13 @@
 var express = require('express');
 var router = express.Router();
 const orderService = require('../service/OrderService');
+const { isAuthAdmin } = require('../middleware/middleware');
 
 
-router.get('/', async function(req, res, next) {
+router.get('/', isAuthAdmin, async function(req, res, next) {
   
   try {
-          const orders = await orderService.fetchOrders();
+          const orders = await orderService.fetchOrders(req);
 
           res.render('orders', { orders });
     
@@ -18,12 +19,12 @@ router.get('/', async function(req, res, next) {
           }
      });
 
-router.post('/edit', async function(req, res, next) {
+router.post('/edit', isAuthAdmin, async function(req, res, next) {
 
   const {id, statusId} = req.body;
 
   try {
-  const order = await orderService.editOrder(req.body);
+  const order = await orderService.editOrder(req);
 
     req.flash('message', 'The order was successfully changed.');
     req.flash('messageType', 'success');

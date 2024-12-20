@@ -1,9 +1,11 @@
 const axios = require('axios');
 const express = require('express');
 
-async function fetchOrders() {
+async function fetchOrders(req) {
     try {
-        const response = await axios.get('http://localhost:3000/orders/all');
+        const response = await axios.get('http://localhost:3000/orders/all', {
+            headers: { Authorization: req.user.token }, // sending the token to the backend app
+        }); 
         const data = response?.data?.data || [];
         return data;
     } catch (error) {
@@ -11,13 +13,13 @@ async function fetchOrders() {
     }
 }
 
-async function editOrder(order) {
+async function editOrder(req) {
     try { 
         
-        const url = `http://localhost:3000/orders/${order.id}`;
-        console.log(url);
-        const response = await axios.put(url, {
-            orderStatusId: order.statusId
+        const url = `http://localhost:3000/orders/${req.body.id}`;
+        const response = await axios.put(url, 
+            { orderStatusId: req.body.statusId },
+            { headers: { Authorization: req.user.token }
         });
 		return response.data 
     } catch (error) {

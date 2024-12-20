@@ -32,5 +32,22 @@ router.get('/all', async (req, res) => {
       }
 });
 
+router.put('/edit/:userId', async (req, res) => {
+
+    const { userId } = req.params;
+    const updateData = req.body;
+    
+    try {
+        let user = await userService.updateRole(userId, updateData);
+        if (order === null) {
+            return res.jsend.fail({"result": "no user were found during editing user."});
+        }
+        res.jsend.success(user);
+        } catch (err) {
+            console.error(err);
+            res.jsend.error("Error updating user role.");
+        }
+});
+
 
 module.exports = router;

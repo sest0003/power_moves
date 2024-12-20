@@ -24,13 +24,13 @@ router.get('/', isAuth, async (req, res) => {
 
         res.jsend.success({data: brands});
 
-        } catch (err) {
-            console.error(err);
-            res.jsend.error({
-                "statuscode": 500,
-                "result": "Error finding brands.", err
-            });
-        }
+    } catch (err) {
+        res.jsend.error({
+            "statuscode": 500,
+            "message": "Error finding brands",
+            data: { error: err.message}
+        });
+    }
 });
 
 router.post('/add', jsonParser, async (req, res) => {
@@ -52,18 +52,18 @@ router.post('/add', jsonParser, async (req, res) => {
         res.jsend.success(brand);
 
     } catch (err) {
-        console.error(err);
         res.jsend.error({
             "statuscode": 500,
-            "result": "Error creating brand.", err
+            "message": "Error creating brand",
+            data: { error: err.message}
         });
     }
 });
 
-router.put('/:brandId', async (req, res) => {
+router.put('/edit/:brandId', async (req, res) => {
 
     const { brandId } = req.params;
-    const name= req.body;
+    const name = req.body;
 
     if (!brandId) {
         return res.jsend.fail({ 
@@ -73,7 +73,8 @@ router.put('/:brandId', async (req, res) => {
     }
     
     try {
-        let brand = await brandService.updateBrand(brandId, name);
+
+        const brand = await brandService.updateName(brandId, name);
         if (!brand) {
             return res.jsend.fail({ 
                 "statuscode": 404,
@@ -84,7 +85,8 @@ router.put('/:brandId', async (req, res) => {
         } catch (err) {
             res.jsend.error({
                 "statuscode": 500,
-                "result": "Error updating brand.", err
+                "message": "Error updating brand",
+                data: { error: err.message}
             });
         }
 });

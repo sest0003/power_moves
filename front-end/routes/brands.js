@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const brandService = require('../service/BrandService');
-const { getDropdownData, isAuthAdmin } = require('../middleware/middleware');
+const { isAuthAdmin } = require('../middleware/middleware');
 
 
 
@@ -20,13 +20,13 @@ router.get('/', isAuthAdmin, async function(req, res, next) {
           }
 });
 
- router.post('/add', async function(req, res, next) {
+ router.post('/add', isAuthAdmin, async function(req, res, next) {
   
   const { name } = req.body;
 
   try {
 
-      const brand = await brandService.addBrand(req.body);
+      const brand = await brandService.addBrand(req);
 
       req.flash('message', 'Brand was successfully created!');
       req.flash('messageType', 'success');
@@ -40,13 +40,13 @@ router.get('/', isAuthAdmin, async function(req, res, next) {
       }
  });
 
- router.post('/edit', async function(req, res, next) {
+ router.post('/edit', isAuthAdmin, async function(req, res, next) {
   
   const {id, name} = req.body;
   
   try {
     
-    const brand = await brandService.editBrand(req.body);
+    const brand = await brandService.editBrand(req);
 
     req.flash('message', 'Brand was successfully changed!');
     req.flash('messageType', 'success');
@@ -60,13 +60,13 @@ router.get('/', isAuthAdmin, async function(req, res, next) {
       }
  });
 
- router.post('/delete', async function(req, res, next) {
+ router.post('/delete', isAuthAdmin, async function(req, res, next) {
   
   const {brandId} = req.body;
   
   try {
     
-    const result = await brandService.deleteBrand(brandId);
+    const result = await brandService.deleteBrand(req);
 
     if(!result) {
       res.status(401);

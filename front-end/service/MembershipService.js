@@ -1,9 +1,11 @@
 const axios = require('axios');
 const express = require('express');
 
-async function fetchMemberships() {
+async function fetchMemberships(req) {
     try {
-        const response = await axios.get('http://localhost:3000/memberships');
+        const response = await axios.get('http://localhost:3000/memberships', {
+            headers: { Authorization: req.user.token }, // sending the token to the backend app
+        }); 
         const data = response?.data?.data?.data || [];
         return data;
     } catch (error) {
@@ -13,12 +15,12 @@ async function fetchMemberships() {
 
 
 
-async function addMembership(membership) {
+async function addMembership(req) {
     try { 
         const url = 'http://localhost:3000/memberships/add';
-        const response = await axios.post(url, {
-            type: membership.type,
-            discount: membership.discount
+        const response = await axios.post(url, 
+            { type: req.body.type, discount: req.body.discount },
+            { headers: { Authorization: req.user.token }
         });
 		return response.data 
     } catch (error) {
@@ -26,23 +28,26 @@ async function addMembership(membership) {
     }
 }
 
-async function editMembership(membership) {
+async function editMembership(req) {
     try { 
-        const url = `http://localhost:3000/memberships/edit/${membership.id}`;
-        const response = await axios.put(url, {
-            type: membership.type,
-            discount: membership.discount
-        });
+        const url = `http://localhost:3000/memberships/edit/${req.body.id}`;
+        console.log(url);
+        const response = await axios.put(url, 
+            { type: req.body.type, discount: req.body.discount },
+            { headers: { Authorization: req.user.token }
+        });;
 		return response.data 
     } catch (error) {
         throw error;
     }
 }
 
-async function deleteMembership(id) {
+async function deleteMembership(req) {
     try { 
-        const url = `http://localhost:3000/memberships/delete/${id}`;
-        const response = await axios.delete(url);
+        const url = `http://localhost:3000/memberships/delete/${req.body.membershipId}`;
+        const response = await axios.delete(url, {
+            headers: { Authorization: req.user.token }, // sending the token to the backend app
+        }); 
 		return response.data 
     } catch (error) {
         throw error;

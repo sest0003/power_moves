@@ -17,23 +17,28 @@ async function fetchBrands(req) {
 
 
 
-async function addBrand(brand) {
+async function addBrand(req) {
     try { 
         const url = 'http://localhost:3000/brands/add';
-        const response = await axios.post(url, {
-            name: brand.name
+        const response = await axios.post(url, 
+            { name: req.body.name },
+            { headers: { Authorization: req.user.token }
         });
+        console.log(response);
 		return response.data 
     } catch (error) {
         throw error;
     }
 }
 
-async function editBrand(brand) {
+async function editBrand(req) {
+
     try { 
-        const url = `http://localhost:3000/brands/edit/${brand.id}`;
+        const url = `http://localhost:3000/brands/edit/${req.body.id}`;
+        console.log(url);
         const response = await axios.put(url, {
-            name: brand.name
+             name: req.body.name },
+            { headers: { Authorization: req.user.token }
         });
 		return response.data 
     } catch (error) {
@@ -41,10 +46,12 @@ async function editBrand(brand) {
     }
 }
 
-async function deleteBrand(id) {
+async function deleteBrand(req) {
     try { 
-        const url = `http://localhost:3000/brands/delete/${id}`;
-        const response = await axios.delete(url);
+        const url = `http://localhost:3000/brands/delete/${req.body.brandId}`;
+        const response = await axios.delete(url, {
+            headers: { Authorization: req.user.token }, // sending the token to the backend app
+        }); 
 		return response.data 
     } catch (error) {
         throw error;

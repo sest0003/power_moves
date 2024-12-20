@@ -56,6 +56,30 @@ class UserService {
         await user.save();
      }
 
+     async updateRole(userId, update) {
+    
+        // Validate allowedfields
+        const allowedFields = ["roleId", "membershipId"];
+        
+        const filteredData = Object.keys(update)
+        .filter(key => allowedFields.includes(key))
+        .reduce((obj, key) => {
+            obj[key] = update[key];
+            return obj;
+        }, {});
+    
+        // Convert params to numbers
+        let ConvertedId = parseInt(userId, 10);  
+       
+        const user = await this.User.findOne({ where: { id: ConvertedId } });
+        if (!user) return null;
+    
+        user.set(filteredData);
+        await user.save();
+    
+        return user;
+    }
+
 
 }
 

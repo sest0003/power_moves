@@ -25,10 +25,10 @@ router.get('/all', async (req, res) => {
         res.jsend.success({data: categories});
 
     } catch (err) {
-        console.error(err);
         res.jsend.error({
             "statuscode": 500,
-            "result": "Error finding categories.", err
+            "message": "Error finding categories",
+            data: { error: err.message}
         });
     }
 });
@@ -52,15 +52,15 @@ router.post('/add', jsonParser, async (req, res) => {
         res.jsend.success(category);
 
     } catch (err) {
-        console.error(err);
         res.jsend.error({
             "statuscode": 500,
-            "result": "Error creating category.", err
+            "message": "Error creating category",
+            data: { error: err.message}
         });
     }
 });
 
-router.put('/:categoryId', async (req, res) => {
+router.put('/edit/:categoryId', async (req, res) => {
 
     const { categoryId } = req.params;
     const name = req.body;
@@ -80,16 +80,19 @@ router.put('/:categoryId', async (req, res) => {
                 "result": "No category was found",
             });
         }
+
         res.jsend.success(category);
-        } catch (err) {
-            res.jsend.error({
-                "statuscode": 500,
-                "result": "Error updating category.", err
-            });
-        }
+
+    } catch (err) {
+        res.jsend.error({
+            "statuscode": 500,
+            "message": "Error update category",
+            data: { error: err.message}
+        });
+    }
 });
 
-router.delete('/:categoryId', async (req, res) => {
+router.delete('/delete/:categoryId', async (req, res) => {
   
     const { categoryId } = req.params;
 
@@ -112,12 +115,13 @@ router.delete('/:categoryId', async (req, res) => {
             "statuscode": 200,
             "result": "Category deleted successfully."
          });
-    } catch (err) {
-        res.jsend.error({
-            "statuscode": 500,
-            "result": "Error deleting category.", err
-        });
-    }
+        } catch (err) {
+            res.jsend.error({
+                "statuscode": 500,
+                "message": "Error deleting category",
+                data: { error: err.message}
+            });
+        }
 });
 
 

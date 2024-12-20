@@ -1,9 +1,11 @@
 const axios = require('axios');
 const express = require('express');
 
-async function fetchUsers() {
+async function fetchUsers(req) {
     try {
-        const response = await axios.get('http://localhost:3000/users/all');
+        const response = await axios.get('http://localhost:3000/users/all', {
+            headers: { Authorization: req.user.token }, // sending the token to the backend app
+        }); 
         const data = response?.data?.data?.data || [];
         return data;
     } catch (error) {
@@ -11,10 +13,11 @@ async function fetchUsers() {
     }
 }
 
-async function registerUser(user) {
+async function registerUser(user, reqUser) {
     try { 
         const url = 'http://localhost:3000/auth/register';
-        const response = await axios.post(url, {
+        const response = await axios.post(url, 
+            {
             firstname: user.firstname,
             lastname: user.lastname,
             username: user.username,
@@ -26,6 +29,8 @@ async function registerUser(user) {
             membershipId: 1,
             roleId: 2,
             sumOfUnits: 0
+            },
+            { headers: { Authorization: reqUser.token }
         });
 		return response.data 
     } catch (error) {
@@ -33,11 +38,27 @@ async function registerUser(user) {
     }
 }
 
+async function editRole(req) {
 
-async function deleteUser(id) {
     try { 
-        const url = `http://localhost:3000/users/delete/${id}`;
-        const response = await axios.delete(url);
+        const url = `http://localhost:3000/users/edit/${req.body.id}`;
+        console.log(url);
+        const response = await axios.put(url, 
+            { roleId: req.body.roleId },
+            { headers: { Authorization: req.user.token }
+        });
+		return response.data 
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function deleteUser(req) {
+    try { 
+        const url = `http://localhost:3000/users/delete/${req.body.userId}`;
+        const response = await axios.delete(url, {
+            headers: { Authorization: req.user.token }, // sending the token to the backend app
+        }); 
 		return response.data 
     } catch (error) {
         throw error;
@@ -48,5 +69,6 @@ async function deleteUser(id) {
 module.exports = { 
     fetchUsers,
     registerUser,
-    deleteUser
+    deleteUser,
+    editRole
 };

@@ -22,9 +22,12 @@ class BrandService {
 
     
     async updateName(id, name) {
-
+        console.log("back service anropas");
         const brand = await this.Brand.findOne({ where: { id: id} });
+        console.log("brand " + brand);
+        
         if (!brand) {
+            console.log("brand is null backensevice");
             return null;
         }
 

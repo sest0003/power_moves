@@ -8,7 +8,7 @@ router.get('/', async function(req, res, next) {
 });
 
 router.post('/login', async function(req, res, next) {  
-
+  
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -23,6 +23,7 @@ router.post('/login', async function(req, res, next) {
       const token = user.data.token; 
       const role = user.data.role;
      
+      // Store token and role in session for route validation in frontend app
       if(token && role) { 
         req.session.token = token;
         req.session.role = role;
@@ -30,7 +31,7 @@ router.post('/login', async function(req, res, next) {
       return res.redirect('/products'); 
       
       } else {
-        req.flash('message', 'Login failed. user information is missing on the server, please try again');
+        req.flash('message', 'Login failed. User data is missing, please try again');
         req.flash('messageType', 'error');  
         res.redirect('/');  
       }
@@ -44,8 +45,13 @@ router.post('/login', async function(req, res, next) {
  });
 
  router.get('/logout', async function(req, res, next) {
-  res.clearCookie('jwt');
-  res.redirect('/');
+  req.session.destroy((error) => {
+    if(error) {
+      console.error('Error while login out', error);
+      return res.status(500).redirect('/products');
+    }
+    res.redirect('/');
+  });
 });
 
 
