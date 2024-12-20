@@ -51,15 +51,15 @@ router.post("/register", jsonParser,
 router.post("/login", jsonParser, async (req, res, next) => {
 
   const { email, password } = req.body;
-    userService.getOneByEmail(email).then((data) => {
-      console.log("data " + data);
-        if (data === null) {
-            return res.jsend.fail({"result": "no user with these credentials"});
+  
+  userService.getOneByEmail(email).then((data) => {
+
+    if (data === null) {
+          return res.jsend.fail({"result": "no user with these credentials"});
         }
         
-       
 		if (!data.salt) {
-            return res.status(500).json({ message: "Salt is undefined." });
+          return res.status(500).json({ message: "Salt is undefined." });
         }
 
         crypto.pbkdf2(password, data.salt, 310000, 32, 'sha256', function(err, hashedPassword) {
@@ -78,7 +78,7 @@ router.post("/login", jsonParser, async (req, res, next) => {
             } catch (err) {
               res.jsend.error("Something went wrong with creating JWT token")
             }
-            res.jsend.success({"result": "You are logged in", "id": data.id, email: data.email, token: token}); 
+            res.jsend.success({"result": "You are logged in", "id": data.id, email: data.email, role: data.roleId, token: token}); 
         });
     });
 });

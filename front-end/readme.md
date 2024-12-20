@@ -27,6 +27,8 @@ If you are unsure of any instructions for the course assignment, contact out to 
 Code to store a token in the frontend server route: https://stackoverflow.com/questions/56524264/how-to-store-jwt-in-cookie-and-pass-it-to-authentication-function-when-redirecti
 https://www.geeksforgeeks.org/express-js-req-cookies-property/
 
+-token sent with axios - https://stackoverflow.com/questions/43002444/make-axios-send-cookies-in-its-requests-automatically
+
 Navbar icon image - chatgtp generated
 
 login - https://codepen.io/soufiane-khalfaoui-hassani/pen/LYpPWda
@@ -37,3 +39,5 @@ npm install -g nodemon
 npm i bootstrap
 npm install axios
 npm install connect-flash express-session
+npm install dotenv
+npm install express-session

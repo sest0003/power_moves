@@ -4,11 +4,10 @@ const express = require('express');
 async function fetchCategories() {
     try {
         const response = await axios.get('http://localhost:3000/categories/all');
-        const categoryData = response?.data?.data?.data || [];
-        return categoryData;
+        const data = response?.data?.data?.data || [];
+        return data;
     } catch (error) {
-        console.log('Error fetching categories:', error);
-        return []; 
+        throw error;
     }
 }
 

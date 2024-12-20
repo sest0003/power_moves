@@ -7,8 +7,7 @@ async function fetchProducts() {
         const productData = response?.data?.data?.data?.slice(0, 20) || [];
         return productData;
     } catch (error) {
-        console.log('Error fetching products:', error);
-        return []; 
+        throw error;
     }
 }
 
@@ -19,8 +18,7 @@ async function fetchProductsByCategory(id) {
         const productData = response?.data?.data?.data || [];
 		return productData;
     } catch (error) {
-        console.log('Error fetching products:', error);
-        return []; 
+        throw error;
     }
 }
 
@@ -31,8 +29,7 @@ async function fetchProductsByBrand(id) {
         const productData = response?.data?.data?.data || [];
 		return productData;
     } catch (error) {
-        console.log('Error fetching products:', error);
-        return []; 
+        throw error;
     }
 }
 
@@ -40,11 +37,10 @@ async function fetchProductsByPartialName(name) {
     try { 
         const url = `http://localhost:3000/products/search/${name}`;
         const response = await axios.post(url);
-        const productData = response?.data?.data?.data || [];
-		return productData;
+        const data = response?.data?.data?.data || [];
+		return data;
     } catch (error) {
-        console.log('Error fetching products:', error);
-        return []; 
+        throw error;
     }
 }
 

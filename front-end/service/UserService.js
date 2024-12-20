@@ -4,12 +4,10 @@ const express = require('express');
 async function fetchUsers() {
     try {
         const response = await axios.get('http://localhost:3000/users/all');
-        const userData = response?.data?.data?.data || [];
-        console.log(userData);
-        return userData;
+        const data = response?.data?.data?.data || [];
+        return data;
     } catch (error) {
-        console.log('Error fetching users:', error);
-        return []; 
+        throw error;
     }
 }
 

@@ -1,3 +1,4 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -31,9 +32,10 @@ app.use(express.static(__dirname + '/node_modules/bootstrap/dist')); // Adding m
 
 // reg.flash function 
 app.use(session({
-  secret: 'secret-key',
+  secret: 'sest21A',
   resave: false,
   saveUninitialized: true,
+  cookie: {secure: false}
 }));
 
 app.use(flash());

@@ -11,7 +11,7 @@ var jwt = require('jsonwebtoken')
 
 router.use(jsend.middleware);
 
-router.get('/all', async (req, res) => {
+router.get('/', isAuth, async (req, res) => {
 
     try {
         let brands = await brandService.getAll();

@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 const productService = require('../service/ProductService');
 const { filterBrands, filterCategories } = require('../service/dropdownService');
+const jwt = require('jsonwebtoken');
+const { token } = require('morgan');
+
 
 // Middleware function get dropdown data
 async function getDropdownData(req, res, next) {
@@ -18,9 +21,16 @@ async function getDropdownData(req, res, next) {
     }
 }
 
+async function isAuthAdmin(req, res, next) {
+    if(req.session.token && req.session.role === 1) {
+        req.user = { token: `Bearer ${req.session.token}`, role: req.session.role }
+        next();
+    } else {
+        res.status(401).redirect('/');
+    }
+}
 
 
-module.exports = {
-    getDropdownData
-};
+
+module.exports = { getDropdownData, isAuthAdmin };
 

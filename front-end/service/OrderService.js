@@ -7,12 +7,11 @@ async function fetchOrders() {
         const data = response?.data?.data || [];
         return data;
     } catch (error) {
-        console.log('Error fetching orders:', error); 
+        throw error;
     }
 }
 
 async function editOrder(order) {
-    console.log("hej");
     try { 
         
         const url = `http://localhost:3000/orders/${order.id}`;

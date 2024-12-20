@@ -7,16 +7,9 @@ const { getDropdownData } = require('../middleware/middleware');
 
 router.get('/', async function(req, res, next) {
   try {
-          // Here i fetch message from other redirects, if existing and send it back to the ejs
-          const categories = await categoryService.fetchCategories();
 
-          if(!categories) {
-            req.flash('message', 'No categories found. Please try again');
-            req.flash('messageType', 'error');
-              return res.redirect('/products');  
-          }
-    
-          res.render('categories', { categories });
+        const categories = await categoryService.fetchCategories();
+        res.render('categories', { categories });
     
           } catch (error) {
             res.status(500);
@@ -27,16 +20,12 @@ router.get('/', async function(req, res, next) {
      });
 
  router.post('/add', async function(req, res, next) {
-  try {
-    const { name } = req.body;
-    const category = await categoryService.addCategory(req.body);
+  
+  const { name } = req.body;
 
-      if(!brand) {
-        res.status(401);
-        req.flash('message', 'Failed creating category. Please try again');
-        req.flash('messageType', 'error');
-          return res.redirect('/categories');  
-      }
+  try {
+    
+      const category = await categoryService.addCategory(req.body);
 
       req.flash('message', 'Brand was successfully created!');
       req.flash('messageType', 'success');
@@ -52,33 +41,29 @@ router.get('/', async function(req, res, next) {
 
  router.post('/edit', async function(req, res, next) {
   
+  const {id, name} = req.body;
+  
   try {
-    const {id, name} = req.body;
+    
     const brand = await categoryService.editCategory(req.body);
 
-    if(!category) {
-      return res.status(401).render('categories', {
-        message: 'fail to edit category',
-        messageType: 'error',
-      });     
-  }
-      res.render('categories', {
-        message: 'Category was successfully changed',
-        messageType: 'success'
-        });
+      req.flash('message', 'Category was successfully changed!');
+      req.flash('messageType', 'success');
+      res.redirect('/categories');  
 
-      } catch (error) {
-        res.render('categories', {
-          message: 'Error editing category. ${error.message}. Please try again.',
-          messageType: 'error',
-        });
-      }
+    } catch (error) {
+      console.error('Error editing brand', error.message);
+      req.flash('message', 'Error editing brand. Please try again');
+      req.flash('messageType', 'error');  
+      res.redirect('/categories');  
+     }
  });
 
  router.post('/delete', async function(req, res, next) {
   
+  const {categoryId} = req.body;
+  
   try {
-    const {categoryId} = req.body;
     
     const result = await categoryService.deleteCategory(categoryId);
 

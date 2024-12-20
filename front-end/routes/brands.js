@@ -1,41 +1,32 @@
 var express = require('express');
 var router = express.Router();
 const brandService = require('../service/BrandService');
+const { getDropdownData, isAuthAdmin } = require('../middleware/middleware');
 
 
 
-router.get('/', async function(req, res, next) {
+router.get('/', isAuthAdmin, async function(req, res, next) {
+
   try {
-          // Here i fetch message from other redirects, if existing and send it back to the ejs
-          const brands = await brandService.fetchBrands();
+          const brands = await brandService.fetchBrands(req);
 
-          if(!brands) {
-            req.flash('message', 'No brands found. Please try again');
-            req.flash('messageType', 'error');
-              return res.redirect('/products');  
-          }
-    
           res.render('brands', { brands });
     
           } catch (error) {
             res.status(500);
             req.flash('message', 'Error finding brands. Please try again');
             req.flash('messageType', 'error');
-              return res.redirect('/products');  
+            return res.redirect('/products');  
           }
-     });
+});
 
  router.post('/add', async function(req, res, next) {
-  try {
-    const { name } = req.body;
-    const brand = await brandService.addBrand(req.body);
+  
+  const { name } = req.body;
 
-      if(!brand) {
-        res.status(404);
-        req.flash('message', 'Failed to find brand. Please try again');
-        req.flash('messageType', 'error');
-          return res.redirect('/brands');  
-      }
+  try {
+
+      const brand = await brandService.addBrand(req.body);
 
       req.flash('message', 'Brand was successfully created!');
       req.flash('messageType', 'success');
@@ -51,20 +42,15 @@ router.get('/', async function(req, res, next) {
 
  router.post('/edit', async function(req, res, next) {
   
+  const {id, name} = req.body;
+  
   try {
-    const {id, name} = req.body;
+    
     const brand = await brandService.editBrand(req.body);
 
-    if(!brand) {
-      return res.status(401).render('brands', {
-        message: 'fail to edit brand',
-        messageType: 'error',
-      });     
-  }
-      res.render('brands', {
-        message: 'Brand was successfully changed',
-        messageType: 'success'
-        });
+    req.flash('message', 'Brand was successfully changed!');
+    req.flash('messageType', 'success');
+    res.redirect('/brands');  
 
       } catch (error) {
         res.render('brands', {
@@ -76,8 +62,9 @@ router.get('/', async function(req, res, next) {
 
  router.post('/delete', async function(req, res, next) {
   
+  const {brandId} = req.body;
+  
   try {
-    const {brandId} = req.body;
     
     const result = await brandService.deleteBrand(brandId);
 

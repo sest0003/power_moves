@@ -6,7 +6,6 @@ const membershipService = require('../service/MembershipService');
 
 router.get('/', async function(req, res, next) {
   try {
-          // Here i fetch message from other redirects, if existing and send it back to the ejs
           const memberships = await membershipService.fetchMemberships();
 
           if(!memberships) {
@@ -26,16 +25,12 @@ router.get('/', async function(req, res, next) {
 });
 
  router.post('/add', async function(req, res, next) {
-  try {
-    const { type, discount } = req.body;
-    const membership = await membershipService.addMembership(req.body);
 
-      if(!membership) {
-        res.status(404);
-        req.flash('message', 'Failed to find membership. Please try again');
-        req.flash('messageType', 'error');
-          return res.redirect('/memberships');  
-      }
+  const { type, discount } = req.body;
+
+  try {
+
+    const membership = await membershipService.addMembership(req.body);
 
       req.flash('message', 'membership was successfully created!');
       req.flash('messageType', 'success');
@@ -51,16 +46,11 @@ router.get('/', async function(req, res, next) {
 
  router.post('/edit', async function(req, res, next) {
   
+  const {id, type, discount} = req.body;
+  
   try {
-    const {id, type, discount} = req.body;
-    const membership = await membershipService.editMembership(req.body);
 
-    if(!membership) {
-      res.status(404);
-      req.flash('message', 'Failed to edit membership. Please try again');
-      req.flash('messageType', 'error');
-      return res.redirect('/memberships');  
-    }
+    const membership = await membershipService.editMembership(req.body);
 
       req.flash('message', 'membership was successfully edited!');
       req.flash('messageType', 'success');
@@ -76,17 +66,11 @@ router.get('/', async function(req, res, next) {
 
  router.post('/delete', async function(req, res, next) {
   
+  const {membershipsId} = req.body;
+  
   try {
-    const {membershipsId} = req.body;
     
-    const result = await membershipService.deleteMembership(membershipsId);
-
-    if(!result) {
-      res.status(401);
-      req.flash('message', 'No membership was found. Please try again');
-      req.flash('messageType', 'error');
-        return res.redirect('/memberships');  
-    }
+      const result = await membershipService.deleteMembership(membershipsId);
 
       req.flash('message', 'membership was successfully deleted!');
       req.flash('messageType', 'success');

@@ -1,9 +1,10 @@
 require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
-var path = require('path');
 var cookieParser = require('cookie-parser');
+var path = require('path');
 var logger = require('morgan');
+const cors = require('cors'); // adding cors so the two apps can send credentials between the apps
 
 // Routers
 const indexRouter = require('./routes/index');
@@ -30,8 +31,16 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
+
+// implementing cors
+app.use(cors({
+  origin: 'http://localhost:3300',
+  credentials: true,
+}));
+
+app.use(cookieParser());
 
 // Basic endpoints for routers
 app.use('/', indexRouter);

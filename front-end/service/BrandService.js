@@ -1,14 +1,17 @@
 const axios = require('axios');
 const express = require('express');
 
-async function fetchBrands() {
+async function fetchBrands(req) {
+   
+   
     try {
-        const response = await axios.get('http://localhost:3000/brands/all');
-        const brandData = response?.data?.data?.data || [];
-        return brandData;
+        const response = await axios.get('http://localhost:3000/brands', {
+            headers: { Authorization: req.user.token }, // sending the token to the backend app
+        }); 
+        const data = response?.data?.data?.data || [];
+        return data;
     } catch (error) {
-        console.log('Error fetching brands:', error);
-        return []; 
+        throw error;
     }
 }
 
@@ -47,8 +50,6 @@ async function deleteBrand(id) {
         throw error;
     }
 }
-
-
 
 module.exports = { 
     fetchBrands, 

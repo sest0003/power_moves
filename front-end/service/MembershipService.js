@@ -7,7 +7,7 @@ async function fetchMemberships() {
         const data = response?.data?.data?.data || [];
         return data;
     } catch (error) {
-        console.log('Error fetching brands:', error);
+        throw error;
     }
 }
 
