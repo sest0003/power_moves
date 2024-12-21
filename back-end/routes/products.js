@@ -1,6 +1,6 @@
 var express = require('express');
 var jsend = require('jsend');
-const isAuth = require('../middleware/middleware');
+const { isAuth, isAdmin} = require('../middleware/middleware');
 var router = express.Router();
 var db = require("../models");
 var ProductService = require("../service/ProductService")
@@ -92,7 +92,7 @@ router.post('/search/:name', async (req, res) => {
        }
 });
 
-router.post('/add', isAuth, jsonParser, async (req, res) => {
+router.post('/add', isAuth, isAdmin, jsonParser, async (req, res) => {
 
     const { name, description, imageUrl, unitPrice, stock, brandId, categoryId  } = req.body;
 
@@ -110,7 +110,7 @@ router.post('/add', isAuth, jsonParser, async (req, res) => {
     }
 });
 
-router.put('/edit/:productId', isAuth, async (req, res) => {
+router.put('/edit/:productId', isAuth, isAdmin, async (req, res) => {
 
     const { productId } = req.params;
     const updateData = req.body;

@@ -37,6 +37,7 @@ login - https://codepen.io/soufiane-khalfaoui-hassani/pen/LYpPWda
 # Installations
 npm install -g nodemon
 npm i bootstrap
+npm install jquery popper.js
 npm install axios
 npm install connect-flash express-session
 npm install dotenv

@@ -1,6 +1,6 @@
 var jwt = require('jsonwebtoken')
 
-// Middleware function to determine if the API endpoint request is from an authenticated user
+// // Verify if user as a auth token
 function isAuth(req, res, next) {
 
     const token = req.headers.authorization?.split(' ')[1]; 
@@ -22,6 +22,16 @@ function isAuth(req, res, next) {
     }
 }
 
-module.exports = isAuth;
-module.exports = isAuth;
+async function isAdmin(req, res, next) {
+    // Verify if user is a admin
+    if(req.user.roleId === 1) {
+        next();
+    } else {
+        return res.status(401).jsend.fail({ "result": "the user is not an admin" });
+    }
+}
+
+
+module.exports = {isAuth, isAdmin};
+
 

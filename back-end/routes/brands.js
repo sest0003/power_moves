@@ -1,6 +1,6 @@
 var express = require('express');
 var jsend = require('jsend');
-const isAuth = require('../middleware/middleware');
+const { isAuth, isAdmin} = require('../middleware/middleware');
 var router = express.Router();
 var db = require("../models");
 var BrandService = require("../service/BrandService")
@@ -11,7 +11,7 @@ var jwt = require('jsonwebtoken')
 
 router.use(jsend.middleware);
 
-router.get('/', isAuth, async (req, res) => {
+router.get('/', isAuth, isAdmin, async (req, res) => {
 
     try {
         let brands = await brandService.getAll();
@@ -33,7 +33,7 @@ router.get('/', isAuth, async (req, res) => {
     }
 });
 
-router.post('/add', isAuth, jsonParser, async (req, res) => {
+router.post('/add', isAuth, isAdmin, jsonParser, async (req, res) => {
 
     const { name } = req.body;
 
@@ -60,7 +60,7 @@ router.post('/add', isAuth, jsonParser, async (req, res) => {
     }
 });
 
-router.put('/edit/:brandId', isAuth, async (req, res) => {
+router.put('/edit/:brandId', isAdmin, isAuth, async (req, res) => {
 
     const { brandId } = req.params;
     const{ name } = req.body;
@@ -93,7 +93,7 @@ router.put('/edit/:brandId', isAuth, async (req, res) => {
         }
 });
 
-router.delete('/delete/:brandId', isAuth, async (req, res) => {
+router.delete('/delete/:brandId', isAuth, isAdmin, async (req, res) => {
   
     const { brandId } = req.params;
 

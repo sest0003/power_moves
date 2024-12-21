@@ -1,6 +1,6 @@
 var express = require('express');
 var jsend = require('jsend');
-const isAuth = require('../middleware/middleware');
+const { isAuth, isAdmin} = require('../middleware/middleware');
 var router = express.Router();
 var db = require("../models");
 var MembershipService = require("../service/MembershipService")
@@ -10,7 +10,7 @@ var jsonParser = bodyParser.json()
 
 router.use(jsend.middleware);
 
-router.get('/', isAuth, async (req, res) => {
+router.get('/', isAuth, isAdmin, async (req, res) => {
 
     try {
         let memberships = await membershipService.getAll();
@@ -32,7 +32,7 @@ router.get('/', isAuth, async (req, res) => {
         }
 });
 
-router.post('/add', isAuth, jsonParser, async (req, res) => {
+router.post('/add', isAuth, isAdmin, jsonParser, async (req, res) => {
 
     const { type, discount } = req.body;
 
@@ -62,7 +62,7 @@ router.post('/add', isAuth, jsonParser, async (req, res) => {
     }
 });
 
-router.put('/edit/:membershipId', isAuth, async (req, res) => {
+router.put('/edit/:membershipId', isAuth, isAdmin, async (req, res) => {
 
     const { membershipId } = req.params;
     const { type, discount } = req.body;
@@ -95,7 +95,7 @@ router.put('/edit/:membershipId', isAuth, async (req, res) => {
         }
 });
 
-router.delete('/delete/:membershipId', isAuth, async (req, res) => {
+router.delete('/delete/:membershipId', isAuth, isAdmin, async (req, res) => {
   
     const { membershipId } = req.params;
 

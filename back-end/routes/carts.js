@@ -1,5 +1,5 @@
 var express = require('express');
-const isAuth = require('../middleware/middleware');
+const { isAuth, isAdmin} = require('../middleware/middleware');
 var jsend = require('jsend');
 var router = express.Router();
 var db = require("../models");

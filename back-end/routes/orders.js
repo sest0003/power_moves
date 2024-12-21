@@ -1,5 +1,5 @@
 var express = require('express');
-const isAuth = require('../middleware/middleware');
+const { isAuth, isAdmin} = require('../middleware/middleware');
 var jsend = require('jsend');
 var router = express.Router();
 var db = require("../models");
@@ -19,7 +19,7 @@ var userService = new UserService(db);
 var orderService = new OrderService(db, userService);
 
 
-router.get('/all', isAuth, jsonParser, async (req, res) => {
+router.get('/all', isAuth, isAdmin, jsonParser, async (req, res) => {
 
      const { cartId } = req.params;
 
@@ -38,7 +38,7 @@ router.get('/all', isAuth, jsonParser, async (req, res) => {
    }
 });
 
-router.put('/:orderId', isAuth, async (req, res) => {
+router.put('/:orderId', isAuth, isAdmin, async (req, res) => {
 
     const { orderId } = req.params;
     const updateData = req.body;
@@ -55,7 +55,7 @@ router.put('/:orderId', isAuth, async (req, res) => {
         }
 });
 
-router.delete('/:orderId/', isAuth, async (req, res) => {
+router.delete('/:orderId/', isAuth, isAdmin, async (req, res) => {
   
     const { orderId } = req.params;
 

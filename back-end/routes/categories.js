@@ -1,6 +1,6 @@
 var express = require('express');
 var jsend = require('jsend');
-const isAuth = require('../middleware/middleware');
+const { isAuth, isAdmin} = require('../middleware/middleware');
 var router = express.Router();
 var db = require("../models");
 var CategoryService = require("../service/CategoryService")
@@ -11,7 +11,7 @@ var jwt = require('jsonwebtoken')
 
 router.use(jsend.middleware);
 
-router.get('/all', isAuth, async (req, res) => {
+router.get('/all', isAuth, isAdmin, async (req, res) => {
     
     try {
         let categories = await categoryService.getAll();
@@ -33,7 +33,7 @@ router.get('/all', isAuth, async (req, res) => {
     }
 });
 
-router.post('/add', isAuth, jsonParser, async (req, res) => {
+router.post('/add', isAuth, isAdmin, jsonParser, async (req, res) => {
 
     const { name } = req.body;
 
@@ -60,7 +60,7 @@ router.post('/add', isAuth, jsonParser, async (req, res) => {
     }
 });
 
-router.put('/edit/:categoryId', isAuth, async (req, res) => {
+router.put('/edit/:categoryId', isAuth, isAdmin, async (req, res) => {
 
     const { categoryId } = req.params;
     const { name } = req.body;
@@ -92,7 +92,7 @@ router.put('/edit/:categoryId', isAuth, async (req, res) => {
     }
 });
 
-router.delete('/delete/:categoryId', isAuth, async (req, res) => {
+router.delete('/delete/:categoryId', isAuth, isAdmin, async (req, res) => {
   
     const { categoryId } = req.params;
 

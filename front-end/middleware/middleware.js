@@ -28,7 +28,10 @@ async function isAuthAdmin(req, res, next) {
         req.user = { token: `Bearer ${req.session.token}`, role: req.session.role }
         next();
     } else {
+        req.flash('message', 'You must be a admin user to have access to this page, please login');
+        req.flash('messageType', 'error');  
         res.status(401).redirect('/');
+        
     }
 }
 

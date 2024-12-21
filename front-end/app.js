@@ -28,8 +28,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(__dirname + '/node_modules/bootstrap/dist')); // Adding mapping for bootstrap
-
+app.use(express.static(__dirname + '/node_modules/bootstrap/dist/css')); // Adding mapping for bootstrap
+app.use(express.static(__dirname + '/node_modules/bootstrap/dist/js')); // js
+app.use(express.static(__dirname + '/node_modules/jquery/dist')); // jquery
+app.use(express.static(__dirname + '/node_modules/popper.js/dist/umd')); // popper
 // reg.flash function 
 app.use(session({
   secret: 'sest21A',

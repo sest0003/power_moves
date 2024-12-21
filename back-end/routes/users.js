@@ -1,6 +1,6 @@
 var express = require('express');
 var jsend = require('jsend');
-const isAuth = require('../middleware/middleware');
+const { isAuth, isAdmin} = require('../middleware/middleware');
 var router = express.Router();
 var db = require("../models");
 var UserService = require("../service/UserService")
@@ -11,7 +11,7 @@ var jsonParser = bodyParser.json()
 router.use(jsend.middleware);
 
 /* GET users listing. */
-router.get('/all', isAuth, async (req, res) => {
+router.get('/all', isAuth, isAdmin, async (req, res) => {
   try {
       let users = await userService.getAll();
       if (!users) {
@@ -32,7 +32,7 @@ router.get('/all', isAuth, async (req, res) => {
       }
 });
 
-router.put('/edit/:userId', isAuth, async (req, res) => {
+router.put('/edit/:userId', isAuth, isAdmin, async (req, res) => {
 
     const { userId } = req.params;
     const updateData = req.body;

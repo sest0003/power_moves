@@ -71,7 +71,7 @@ router.post("/login", jsonParser, async (req, res, next) => {
             let token;
             try {
               token = jwt.sign(
-                { id: data.id, email: data.email },
+                { id: data.id, email: data.email, roleId: data.roleId },
                 process.env.TOKEN_SECRET,
                 { expiresIn: "2h" }
               );
