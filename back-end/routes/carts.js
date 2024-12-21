@@ -19,15 +19,11 @@ var userService = new UserService(db);
 var orderService = new OrderService(db, userService);
 
 
-router.post('/add/:productId/:units', /* isAuth, */ jsonParser, async (req, res) => {
+router.post('/add/:productId/:units', isAuth, jsonParser, async (req, res) => {
 
     const { productId, units } = req.params;
   
-    try {
-      /*   const user = req.user; */
-        // Find user
-        let user = await userService.getOneById(1);
-
+    try { 
         // Find product in database
         const product = await productService.getOne(productId);
 
@@ -53,15 +49,11 @@ router.post('/add/:productId/:units', /* isAuth, */ jsonParser, async (req, res)
     }
 });
 
-router.post('/checkout/now/:cartId', jsonParser, async (req, res) => {
+router.post('/checkout/now/:cartId', isAuth, jsonParser, async (req, res) => {
     
     const { cartId } = req.params;
     
     try { 
-       /*  const user = req.user; */
-        // Find user
-       let user = await userService.getOneById(1);
-
         // Create Order
         const order = await orderService.createOrder(cartId, user);
 

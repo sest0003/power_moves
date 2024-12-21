@@ -33,7 +33,7 @@ router.get('/', isAuth, async (req, res) => {
     }
 });
 
-router.post('/add', jsonParser, async (req, res) => {
+router.post('/add', isAuth, jsonParser, async (req, res) => {
 
     const { name } = req.body;
 
@@ -60,10 +60,10 @@ router.post('/add', jsonParser, async (req, res) => {
     }
 });
 
-router.put('/edit/:brandId', async (req, res) => {
+router.put('/edit/:brandId', isAuth, async (req, res) => {
 
     const { brandId } = req.params;
-    const name = req.body;
+    const{ name } = req.body;
 
     if (!brandId) {
         return res.jsend.fail({ 
@@ -81,7 +81,9 @@ router.put('/edit/:brandId', async (req, res) => {
                 "result": "No brand was found",
             });
         }
+
         res.jsend.success(brand);
+        
         } catch (err) {
             res.jsend.error({
                 "statuscode": 500,
@@ -91,7 +93,7 @@ router.put('/edit/:brandId', async (req, res) => {
         }
 });
 
-router.delete('/delete/:brandId', async (req, res) => {
+router.delete('/delete/:brandId', isAuth, async (req, res) => {
   
     const { brandId } = req.params;
 

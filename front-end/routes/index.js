@@ -22,14 +22,18 @@ router.post('/login', async function(req, res, next) {
       const user = await loginService.login(email, password);
       const token = user.data.token; 
       const role = user.data.role;
+
+      if(user.status === "fail") {
+        req.flash('message', 'Login failed. Found no user with these credentials, please try again');
+        req.flash('messageType', 'error');  
+        return res.redirect('/');  
+      }
      
       // Store token and role in session for route validation in frontend app
       if(token && role) { 
         req.session.token = token;
         req.session.role = role;
-
-      return res.redirect('/products'); 
-      
+        return res.redirect('/products'); 
       } else {
         req.flash('message', 'Login failed. User data is missing, please try again');
         req.flash('messageType', 'error');  
@@ -40,7 +44,7 @@ router.post('/login', async function(req, res, next) {
         console.error(error.message);
         req.flash('message', 'Error trying to login in. something is wrong');
         req.flash('messageType', 'error');  
-        res.redirect('/');  
+        return res.redirect('/');  
       }
  });
 

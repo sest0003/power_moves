@@ -6,10 +6,11 @@ class ProductService {
         this.Product = db.Product;
     }
 
-    async getOne(id) {
-        return this.Product.findOne({
+    async getOne(id) {  
+        const product = await this.Product.findOne({
             where: {id: id}
         })
+        return product 
     }
 
     async updateStock(id, amount) {
@@ -143,9 +144,6 @@ class ProductService {
                 throw new Error("Database error occured");
             }
        }
-
-       
-    
 
     async updateProduct(productId, update) {
         

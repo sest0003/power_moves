@@ -10,7 +10,7 @@ var jsonParser = bodyParser.json()
 
 router.use(jsend.middleware);
 
-router.get('/', async (req, res) => {
+router.get('/', isAuth, async (req, res) => {
 
     try {
         let memberships = await membershipService.getAll();
@@ -32,7 +32,7 @@ router.get('/', async (req, res) => {
         }
 });
 
-router.post('/add', jsonParser, async (req, res) => {
+router.post('/add', isAuth, jsonParser, async (req, res) => {
 
     const { type, discount } = req.body;
 
@@ -62,7 +62,7 @@ router.post('/add', jsonParser, async (req, res) => {
     }
 });
 
-router.put('/edit/:membershipId', async (req, res) => {
+router.put('/edit/:membershipId', isAuth, async (req, res) => {
 
     const { membershipId } = req.params;
     const { type, discount } = req.body;
@@ -95,7 +95,7 @@ router.put('/edit/:membershipId', async (req, res) => {
         }
 });
 
-router.delete('/delete/:membershipId', async (req, res) => {
+router.delete('/delete/:membershipId', isAuth, async (req, res) => {
   
     const { membershipId } = req.params;
 

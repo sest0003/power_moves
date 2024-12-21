@@ -11,7 +11,7 @@ var jwt = require('jsonwebtoken')
 
 router.use(jsend.middleware);
 
-router.get('/all', async (req, res) => {
+router.get('/all', isAuth, async (req, res) => {
     
     try {
         let categories = await categoryService.getAll();
@@ -33,7 +33,7 @@ router.get('/all', async (req, res) => {
     }
 });
 
-router.post('/add', jsonParser, async (req, res) => {
+router.post('/add', isAuth, jsonParser, async (req, res) => {
 
     const { name } = req.body;
 
@@ -60,10 +60,10 @@ router.post('/add', jsonParser, async (req, res) => {
     }
 });
 
-router.put('/edit/:categoryId', async (req, res) => {
+router.put('/edit/:categoryId', isAuth, async (req, res) => {
 
     const { categoryId } = req.params;
-    const name = req.body;
+    const { name } = req.body;
 
     if (!categoryId) {
         return res.jsend.fail({ 
@@ -92,7 +92,7 @@ router.put('/edit/:categoryId', async (req, res) => {
     }
 });
 
-router.delete('/delete/:categoryId', async (req, res) => {
+router.delete('/delete/:categoryId', isAuth, async (req, res) => {
   
     const { categoryId } = req.params;
 

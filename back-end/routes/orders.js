@@ -19,7 +19,7 @@ var userService = new UserService(db);
 var orderService = new OrderService(db, userService);
 
 
-router.get('/all', jsonParser, async (req, res) => {
+router.get('/all', isAuth, jsonParser, async (req, res) => {
 
      const { cartId } = req.params;
 
@@ -38,7 +38,7 @@ router.get('/all', jsonParser, async (req, res) => {
    }
 });
 
-router.put('/:orderId', async (req, res) => {
+router.put('/:orderId', isAuth, async (req, res) => {
 
     const { orderId } = req.params;
     const updateData = req.body;
@@ -55,7 +55,7 @@ router.put('/:orderId', async (req, res) => {
         }
 });
 
-router.delete('/:orderId/', async (req, res) => {
+router.delete('/:orderId/', isAuth, async (req, res) => {
   
     const { orderId } = req.params;
 

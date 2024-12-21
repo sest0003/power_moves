@@ -26,6 +26,24 @@ router.get('/all', async (req, res) => {
         }
 });
 
+router.get('/:productId', async (req, res) => {
+
+    const { productId }= req.params;
+
+    try {
+        let product = await productService.getOne(productId);
+        console.log(product);
+        if (product === null) {
+            return res.jsend.fail({"result": "no product found."});
+        }
+        res.jsend.success({data: product});
+
+        } catch (err) {
+            console.error(err);
+            res.jsend.error("Error finding product.");
+        }
+});
+
 router.post('/search/category/:categoryId', async (req, res) => {
 
      const { categoryId } = req.params;
@@ -83,24 +101,27 @@ router.post('/add', isAuth, jsonParser, async (req, res) => {
     }
     try {
         const product = await productService.create(name, description, imageUrl, unitPrice, stock, brandId, categoryId);
+        
         res.jsend.success(product);
+
     } catch (err) {
         console.error(err);
         res.jsend.error("Error creating product.");
     }
 });
 
-router.put('/edit/:productId', async (req, res) => {
+router.put('/edit/:productId', isAuth, async (req, res) => {
 
     const { productId } = req.params;
     const updateData = req.body;
-  
+
     try {
         let product = await productService.updateProduct(productId, updateData);
         if (!product) {
             return res.jsend.fail({"result": "no product found."});
         }
         res.jsend.success(product);
+        
         } catch (err) {
             console.error(err);
             res.jsend.error("Error finding product.");

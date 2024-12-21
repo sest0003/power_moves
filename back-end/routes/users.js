@@ -11,7 +11,7 @@ var jsonParser = bodyParser.json()
 router.use(jsend.middleware);
 
 /* GET users listing. */
-router.get('/all', async (req, res) => {
+router.get('/all', isAuth, async (req, res) => {
   try {
       let users = await userService.getAll();
       if (!users) {
@@ -32,7 +32,7 @@ router.get('/all', async (req, res) => {
       }
 });
 
-router.put('/edit/:userId', async (req, res) => {
+router.put('/edit/:userId', isAuth, async (req, res) => {
 
     const { userId } = req.params;
     const updateData = req.body;
