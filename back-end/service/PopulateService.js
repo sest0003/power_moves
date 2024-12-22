@@ -39,8 +39,6 @@ class PopulateService {
         const [brand] = await this.Brand.findOrCreate({
             where: { name: product.brand }
         });
-
-        console.log("brand " + brand);
         
      // Fetch Category
         const [category] = await this.Category.findOrCreate({
@@ -74,7 +72,6 @@ class PopulateService {
 async function fetchApiCall() {
     try { 
      const response = await fetch('http://backend.restapi.co.za/items/products/')
-    console.log(response);
      if (!response.ok) {
         throw new Error('API request failed')
      }
@@ -101,9 +98,6 @@ async function fetchApiCall() {
         where: { role: role },
         defaults: { role: role }
       });
-      if (created) {
-        console.log("roles created");
-      }
     }
   }
   
@@ -126,10 +120,6 @@ async function fetchApiCall() {
         where: { type: membership.type },
         defaults: { discount: membership.discount },
       });
-  
-      if (created) {
-          console.log("memberships created");
-      }
     }
   }
   
@@ -165,12 +155,6 @@ async function fetchApiCall() {
         sumOfUnits: 0,
       },
     })
-  
-      if (created) {
-        console.log("default Admin created");
-      } else {
-        console.log("default Admin already exists");
-      }
   }
   
   async function createOrderStatus(OrderStatus) {
@@ -187,10 +171,6 @@ async function fetchApiCall() {
         where: { typeOfStatus: s },
         defaults: { typeOfStatus: s }
       });
-  
-      if (created) {
-        console.log("orderStatus hos been created");
-      }
     }
   }
   

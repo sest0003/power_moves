@@ -46,8 +46,6 @@ router.post('/add', isAuth, isAdmin, jsonParser, async (req, res) => {
 
     const { type, discount } = req.body;
 
-    console.log(req.body);
-
     if (!req.body) {
         return res.jsend.fail({ "result": "data is missing from json body." });
     }
@@ -81,7 +79,6 @@ router.put('/edit/:membershipId', isAuth, isAdmin, async (req, res) => {
 
     const { membershipId } = req.params;
     const { type, discount } = req.body;
-    console.log(req.body);
 
     if (!membershipId) {
         return res.jsend.fail({ 

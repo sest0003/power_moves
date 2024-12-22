@@ -31,7 +31,6 @@ class UserService {
     }
 
     async create(userData) {
-        console.log("User data in service:", userData);
         return this.User.create({
             firstname: userData.firstname,
             lastname: userData.lastname,

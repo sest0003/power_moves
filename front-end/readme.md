@@ -24,10 +24,8 @@ If you are unsure of any instructions for the course assignment, contact out to 
 ---
 
 # References
-Code to store a token in the frontend server route: https://stackoverflow.com/questions/56524264/how-to-store-jwt-in-cookie-and-pass-it-to-authentication-function-when-redirecti
-https://www.geeksforgeeks.org/express-js-req-cookies-property/
 
--token sent with axios - https://stackoverflow.com/questions/43002444/make-axios-send-cookies-in-its-requests-automatically
+- Routers. I have use chatgtp to figure out how ot store product data in res.locals and how to use req.flash. (i am used to javas attributeflash and redirects).
 
 Navbar icon image - chatgtp generated
 
@@ -40,5 +38,4 @@ npm i bootstrap
 npm install jquery popper.js
 npm install axios
 npm install connect-flash express-session
-npm install dotenv
-npm install express-session
+npm install jsonwebtoken

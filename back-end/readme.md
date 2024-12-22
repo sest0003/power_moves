@@ -43,9 +43,3 @@ npm install supertest --save-dev
 -tests - https://www.npmjs.com/package/supertest 
 -https://naodeng.medium.com/supertest-tutorial-advanced-usage-common-assertions-f1b3c88a76d3
 -lite gpt
-
-
-# Installations
-npm install cors
-npm install jest supertest
-npm install swagger-autogen swagger-ui-express

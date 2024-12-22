@@ -87,7 +87,7 @@ router.delete('/:orderId/', isAuth, isAdmin, async (req, res) => {
         }
         res.jsend.success({ "result": "order deleted successfully." });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.jsend.error("Error deleting order.");
     }
 });
