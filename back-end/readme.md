@@ -25,6 +25,7 @@ If you are unsure of any instructions for the course assignment, contact out to 
 
 
 # Installations:
+- To run the app you need to install the following:
 npm install jsend
 npm install dotenv
 npm install sequelize mysql mysql2
@@ -33,8 +34,14 @@ npm install swagger-autogen swagger-ui-express
 npm install --save-dev jest
 npm install supertest --save-dev
 
-# Referenses
-- models: the strukture is from the class litterature and the data is generated with ai from my ERD diagram. 
+# References
+- Models: the structure is from the class litterature and the data is generated with ai from my ERD diagram. 
+
+- PopulateData: the fetch api is from my semester product on this course. i just chatGTP to figure out how to fit it in my prodject 
+
+- Raw queries in the productService: https://sequelize.org/docs/v6/core-concepts/raw-queries/
+
+- models: the structure is from the class litterature and the data is generated with ai from my ERD diagram. 
 - Email validation - https://codingjindo.medium.com/validating-email-password-with-express-validator-96cbe6984bd1
 
 - PopulateData: the fetch api is from my semester product on this course. i just chatGTP to figure out how to fit it in my prodject 
@@ -42,4 +49,9 @@ npm install supertest --save-dev
 
 -tests - https://www.npmjs.com/package/supertest 
 -https://naodeng.medium.com/supertest-tutorial-advanced-usage-common-assertions-f1b3c88a76d3
--lite gpt
+- i have used a little gpt to modify the code. 
+
+- Swagger: I have used some gtp to modify i the code. 
+
+- Debugging - I haved used gtp alot to debug and help me understand errors. 
+

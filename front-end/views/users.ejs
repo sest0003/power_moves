@@ -49,7 +49,11 @@
                   <%= user.id %>
                 </td>
                 <td>
-                <%= user.roleId %>
+                  <% if (user.roleId === 1) { %> 
+                    Admin 
+                    <% } else if (user.roleId === 2) { %>
+                    User 
+                    <% } %>
               </td>
               <td>
                 <%= user.firstname %>
@@ -73,7 +77,15 @@
                 <%= user.sumOfUnits %>
               </td>
               <td>
-                <%= user.membershipId %>
+                <% if (user.membershipId === 1) { %> 
+                    Bronze 
+                  <% } else if (user.membershipId === 2) { %>
+                    Silver
+                  <% } else if (user.membershipId === 3) { %>
+                    Gold
+                  <% } else { %>
+                    <%= user.membershipId %>
+                    <% } %>
               </td>
               <td>
                 <div class="btn-container"> 
