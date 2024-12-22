@@ -310,7 +310,30 @@
             "name": "body",
             "in": "body",
             "schema": {
-               "$ref": "#/definitions/Product"
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "imageUrl": {
+                  "example": "any"
+                },
+                "unitPrice": {
+                  "example": "any"
+                },
+                "stock": {
+                  "example": "any"
+                },
+                "brandId": {
+                  "example": "any"
+                },
+                "categoryId": {
+                  "example": "any"
+                }
+              }
             }
           }
         ],
@@ -566,6 +589,7 @@
           {
             "name": "body",
             "in": "body",
+            "required": true,
             "schema": {
               "$ref": "#/definitions/Brand"
             }
@@ -701,8 +725,9 @@
           {
             "name": "body",
             "in": "body",
+            "required": true,
             "schema": {
-              "$ref": "#/definitions/Category"
+              "$ref": "#/definitions/Product"
             }
           }
         ],
@@ -943,110 +968,119 @@
     "Brand": {
       "type": "object",
       "properties": {
-        "Name": {
+        "type": {
           "type": "string",
-          "example": "Apple"
+          "example": "object"
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Apple"
+                }
+              }
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "required": {
+          "type": "array",
+          "example": [
+            "name"
+          ],
+          "items": {
+            "type": "string"
+          }
         }
-      },
-      "required": [
-        "Name"
-      ]
+      }
     },
     "Category": {
       "type": "object",
       "properties": {
-        "Name": {
+        "type": {
           "type": "string",
-          "example": "Watch"
+          "example": "object"
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Watches"
+                }
+              }
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "required": {
+          "type": "array",
+          "example": [
+            "name"
+          ],
+          "items": {
+            "type": "string"
+          }
         }
-      },
-      "required": [
-        "Name"
-      ]
+      }
     },
     "Product": {
       "type": "object",
       "properties": {
-        "Name": {
+        "type": {
           "type": "string",
-          "example": "Xmas star"
+          "example": "object"
         },
-        "description": {
-          "type": "string",
-          "example": "Gold"
+        "properties": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Apple-x"
+                }
+              }
+            }
+          },
+          "required": [
+            "name"
+          ]
         },
-        "imageUrl": {
-          "type": "string",
-          "example": "https://www.instagram.com/"
-        },
-        "unitPrice": {
-          "type": "string",
-          "example": "15.34e"
-        },
-        "stock": {
-          "type": "string",
-          "example": "10"
-        },
-        "brandId": {
-          "type": "string",
-          "example": "23"
-        },
-        "categoryId": {
-          "type": "string",
-          "example": "11"
+        "required": {
+          "type": "array",
+          "example": [
+            "name"
+          ],
+          "items": {
+            "type": "string"
+          }
         }
-      },
-      "required": [
-        "Name",
-        "description",
-        "imageUrl",
-        "unitPrice",
-        "stock",
-        "brandId",
-        "categoryId"
-      ]
-    },
-    "User": {
-      "type": "object",
-      "properties": {
-        "firstname": {
-          "type": "string",
-          "example": "Adam"
-        },
-        "lastname": {
-          "type": "string",
-          "example": "Support"
-        },
-        "username": {
-          "type": "string",
-          "example": "admin"
-        },
-        "password": {
-          "type": "string",
-          "example": "testpasS1"
-        },
-        "email": {
-          "type": "string",
-          "example": "admin@noroff.no"
-        },
-        "adress": {
-          "type": "string",
-          "example": "Online"
-        },
-        "phone": {
-          "type": "number",
-          "example": 911
-        }
-      },
-      "required": [
-        "firstname",
-        "lastname",
-        "username",
-        "password",
-        "email",
-        "adress",
-        "phone"
-      ]
+      }
     }
   }
 }
