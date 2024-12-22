@@ -20,6 +20,8 @@ class CartService {
     }
 
     async addProductToCart(userId, productId, units) {
+        //convert string to number
+        units = parseInt(units);
 
         // Find product in database
         const product = await this.productService.getOne(productId);
@@ -43,7 +45,7 @@ class CartService {
         } 
 
         // Try to find existing cart
-        const cart = await this.Cart.findOne({ where: { userId: userId}, });
+        let cart = await this.Cart.findOne({ where: { userId: userId}, });
         
         // Calculate Discount
         const discount = user.Membership ? user.Membership.discount : 0;
@@ -57,11 +59,10 @@ class CartService {
                 numOfProducts: units,
                 totalAmount: discountedPrice * units,
             });
-    
-        // Update existing cart
-        } else {
-                let convUnits = parseInt(units, 10);
-                cart.numOfProducts += convUnits;
+            
+                // Update existing cart
+                } else {
+                cart.numOfProducts += units;
                 cart.totalAmount += discountedPrice * units;
                 cart.isCheckedOut = false;
                 await cart.save();
@@ -81,7 +82,7 @@ class CartService {
 
         // Update stock i product
         this.productService.updateStock(productId, units);
-            
+
         return cart;
     }
 

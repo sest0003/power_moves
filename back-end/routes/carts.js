@@ -30,6 +30,8 @@ router.post('/add/:productId/:units', isAuth, jsonParser, async (req, res) => {
     const userId = req.user.id;
 
     const { productId, units} = req.params;
+
+   
   
     try { 
        
