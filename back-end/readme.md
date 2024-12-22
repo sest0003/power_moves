@@ -25,6 +25,7 @@ If you are unsure of any instructions for the course assignment, contact out to 
 
 
 # Installations:
+- localhost is set to 3000
 - To run the app you need to install the following:
 npm install jsend
 npm install dotenv
@@ -54,4 +55,13 @@ npm install supertest --save-dev
 - Swagger: I have used some gtp to modify i the code. 
 
 - Debugging - I haved used gtp alot to debug and help me understand errors. 
+
+# ENV
+HOST = "localhost"
+ADMIN_USERNAME = "admin"
+ADMIN_PASSWORD = "P@ssw0rd"
+DATABASE_NAME = "finalDatabase"
+DIALECT = "mysql"
+PORT = "3000"
+TOKEN_SECRET = '4a6ca05a363dc20760bffa50f1ff7a01e59dbb32522d7d08d6f4bc656e973bd190a912bd47cf12e65c28fe1ea47de61cfcaf8bf2d6f7086639c60e04abdb1e56'
 
