@@ -1,13 +1,16 @@
 const crypto = require('crypto');
 
 class CartService {
-    constructor(db) {
+    constructor(db, userService, productService) {
         this.client = db.sequelize;
         this.Cart = db.Cart;
         this.CartProduct = db.CartProduct;
         this.Order = db.Order;
         this.OrderProduct = db.OrderProduct;
         this.User = db.User;
+        this.Product = db.Product;
+        this.userService = userService;
+        this.productService = productService;
     }
 
     async getOne(id) {
@@ -16,9 +19,30 @@ class CartService {
         })
     }
 
-    async addProductToCart(user, product, units) {
+    async addProductToCart(userId, productId, units) {
+
+        // Find product in database
+        const product = await this.productService.getOne(productId);
+    
+        if (!product) {
+            return {message: "No product was found"};
+        }
+
+        if(product.stock < units) {
+            return {message: "Not enough in stock."};
+        } 
+
+         // Find User
+        const user = await this.Cart.findOne({
+            where: { id: userId }
+        });
+
+        if(!user) {
+            return {message: "you must login to add products to your cart"};
+        } 
+
         // Try to find existing cart
-        let cart = await this.Cart.findOne({ where: { userId: user.id}, });
+        const cart = await this.Cart.findOne({ where: { userId: userId}, });
         
         // Calculate Discount
         const discount = user.Membership ? user.Membership.discount : 0;
@@ -53,6 +77,9 @@ class CartService {
 
         // BulkCreate insertion for a more effectiv insertion
         await this.CartProduct.bulkCreate(cartProducts);
+
+        // Update stock i product
+        productService.updateStock(productId, units);
             
         return cart;
     }

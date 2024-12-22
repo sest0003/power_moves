@@ -19,7 +19,12 @@ var userService = new UserService(db);
 var orderService = new OrderService(db, userService);
 
 
-router.get('/all', isAuth, isAdmin, jsonParser, async (req, res) => {
+router.get('/', isAuth, isAdmin, jsonParser, async (req, res) => {
+
+    // #swagger.tags = ['Orders']
+    // #swagger.description = "Gets the list of all available orders."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 404, 500]
 
      const { cartId } = req.params;
 
@@ -27,7 +32,9 @@ router.get('/all', isAuth, isAdmin, jsonParser, async (req, res) => {
        let orders = await orderService.getAll();
        
        if(!orders) {
-        return res.jsend.fail({"result": "no order found."});
+        return res.jsend.fail({
+            "statuscode": 404,
+            "result": "no order found."});
        } 
        
        res.jsend.success(orders);
@@ -39,6 +46,11 @@ router.get('/all', isAuth, isAdmin, jsonParser, async (req, res) => {
 });
 
 router.put('/:orderId', isAuth, isAdmin, async (req, res) => {
+
+    // #swagger.tags = ['Orders']
+    // #swagger.description = "Edits an existing order."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 404, 500]
 
     const { orderId } = req.params;
     const updateData = req.body;
@@ -57,6 +69,11 @@ router.put('/:orderId', isAuth, isAdmin, async (req, res) => {
 
 router.delete('/:orderId/', isAuth, isAdmin, async (req, res) => {
   
+    // #swagger.tags = ['Orders']
+    // #swagger.description = "Deletes a order."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 404, 500]
+
     const { orderId } = req.params;
 
     if (!orderId) {

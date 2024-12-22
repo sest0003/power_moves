@@ -1,3 +1,6 @@
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger-output.json')
+const bodyParser = require('body-parser')
 require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
@@ -53,6 +56,10 @@ app.use('/orders', orderRouter);
 app.use('/brands', brandRouter);
 app.use('/categories', categoryRouter);
 app.use('/memberships',  membershipRouter);
+
+// Swagger /doc
+app.use(bodyParser.json())
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

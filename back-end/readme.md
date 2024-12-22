@@ -48,3 +48,4 @@ npm install supertest --save-dev
 # Installations
 npm install cors
 npm install jest supertest
+npm install swagger-autogen swagger-ui-express

@@ -3,7 +3,7 @@ const express = require('express');
 
 async function fetchProducts(req) {
     try {
-        const response = await axios.get('http://localhost:3000/products/all', {
+        const response = await axios.get('http://localhost:3000/products', {
             headers: { Authorization: req.user.token }, // sending the token to the backend app
         }); 
         const productData = response?.data?.data?.data?.slice(0, 20) || [];

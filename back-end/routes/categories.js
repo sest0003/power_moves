@@ -11,8 +11,13 @@ var jwt = require('jsonwebtoken')
 
 router.use(jsend.middleware);
 
-router.get('/all', isAuth, isAdmin, async (req, res) => {
+router.get('/', isAuth, isAdmin, async (req, res) => {
     
+    // #swagger.tags = ['Categories']
+    // #swagger.description = "Gets the list of all available Categories."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 404, 500]
+
     try {
         let categories = await categoryService.getAll();
         if (!categories) {
@@ -34,6 +39,20 @@ router.get('/all', isAuth, isAdmin, async (req, res) => {
 });
 
 router.post('/add', isAuth, isAdmin, jsonParser, async (req, res) => {
+
+    // #swagger.tags = ['Categories']
+    // #swagger.description = "Creates a new category."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 404, 500]
+       /* #swagger.parameters['body'] =  {
+    "name": "body",
+    "in": "body",
+    required: true,
+      "schema": {
+        $ref: "#/definitions/Product"
+      }
+    }
+  */
 
     const { name } = req.body;
 
@@ -61,6 +80,12 @@ router.post('/add', isAuth, isAdmin, jsonParser, async (req, res) => {
 });
 
 router.put('/edit/:categoryId', isAuth, isAdmin, async (req, res) => {
+
+    // #swagger.tags = ['Categories']
+    // #swagger.description = "Edits an existing category."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 404, 500]
+
 
     const { categoryId } = req.params;
     const { name } = req.body;
@@ -94,6 +119,11 @@ router.put('/edit/:categoryId', isAuth, isAdmin, async (req, res) => {
 
 router.delete('/delete/:categoryId', isAuth, isAdmin, async (req, res) => {
   
+    // #swagger.tags = ['Categories']
+    // #swagger.description = "Deletes a category."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 404, 500]
+
     const { categoryId } = req.params;
 
     if (!categoryId) {

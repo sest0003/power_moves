@@ -11,7 +11,12 @@ var jsonParser = bodyParser.json()
 
 router.use(jsend.middleware);
 
-router.get('/all', async (req, res) => {
+router.get('/', async (req, res) => {
+
+    // #swagger.tags = ['Products']
+    // #swagger.description = "Gets the list of all available products."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 500]
 
     try {
         let products = await productService.getAll();
@@ -27,6 +32,11 @@ router.get('/all', async (req, res) => {
 });
 
 router.get('/:productId', async (req, res) => {
+
+    // #swagger.tags = ['Products']
+    // #swagger.description = "Gets one product."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 500]
 
     const { productId }= req.params;
 
@@ -46,6 +56,11 @@ router.get('/:productId', async (req, res) => {
 
 router.post('/search/category/:categoryId', async (req, res) => {
 
+    // #swagger.tags = ['Products']
+    // #swagger.description = "Gets the list of all products by category."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 500]
+
      const { categoryId } = req.params;
 
     try {
@@ -62,6 +77,11 @@ router.post('/search/category/:categoryId', async (req, res) => {
 
 router.post('/search/brand/:brandId', async (req, res) => {
 
+    // #swagger.tags = ['Products']
+    // #swagger.description = "Gets the list of all products by brand."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 500]
+
     const { brandId } = req.params;
 
    try {
@@ -77,6 +97,11 @@ router.post('/search/brand/:brandId', async (req, res) => {
 });
 
 router.post('/search/:name', async (req, res) => {
+    
+    // #swagger.tags = ['Products']
+    // #swagger.description = "Gets the list of all products by search name."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 500]
 
     const { name } = req.params;
 
@@ -93,6 +118,11 @@ router.post('/search/:name', async (req, res) => {
 });
 
 router.post('/add', isAuth, isAdmin, jsonParser, async (req, res) => {
+
+    // #swagger.tags = ['Products']
+    // #swagger.description = "adds one product to database."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 401, 500]
 
     const { name, description, imageUrl, unitPrice, stock, brandId, categoryId  } = req.body;
 
@@ -111,6 +141,11 @@ router.post('/add', isAuth, isAdmin, jsonParser, async (req, res) => {
 });
 
 router.put('/edit/:productId', isAuth, isAdmin, async (req, res) => {
+
+    // #swagger.tags = ['Products']
+    // #swagger.description = "edit one product in the database."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 401, 500]
 
     const { productId } = req.params;
     const updateData = req.body;

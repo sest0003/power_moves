@@ -12,6 +12,11 @@ router.use(jsend.middleware);
 
 router.get('/', isAuth, isAdmin, async (req, res) => {
 
+    // #swagger.tags = ['Memberships']
+    // #swagger.description = "Gets the list of all available memberships."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 404, 500]
+
     try {
         let memberships = await membershipService.getAll();
         if (!memberships) {
@@ -33,6 +38,11 @@ router.get('/', isAuth, isAdmin, async (req, res) => {
 });
 
 router.post('/add', isAuth, isAdmin, jsonParser, async (req, res) => {
+
+    // #swagger.tags = ['Memberships']
+    // #swagger.description = "Creates a new membership."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 404, 500]
 
     const { type, discount } = req.body;
 
@@ -63,6 +73,11 @@ router.post('/add', isAuth, isAdmin, jsonParser, async (req, res) => {
 });
 
 router.put('/edit/:membershipId', isAuth, isAdmin, async (req, res) => {
+
+    // #swagger.tags = ['Memberships']
+    // #swagger.description = "Edits an existing membership."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 404, 500]
 
     const { membershipId } = req.params;
     const { type, discount } = req.body;
@@ -97,6 +112,11 @@ router.put('/edit/:membershipId', isAuth, isAdmin, async (req, res) => {
 
 router.delete('/delete/:membershipId', isAuth, isAdmin, async (req, res) => {
   
+    // #swagger.tags = ['Memberships']
+    // #swagger.description = "Deleting an existing membership."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 404, 500]
+
     const { membershipId } = req.params;
 
     if (!membershipId) {

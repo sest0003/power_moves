@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
+    "start": "node swagger && nodemon ./bin/www",
+    "swagger": "node swagger",
     "test": "jest"
   },
   "dependencies": {
@@ -16,6 +17,8 @@
     "http-errors": "~1.6.3",
     "jest": "^29.7.0",
     "morgan": "~1.9.1",
-    "supertest": "^7.0.0"
+    "supertest": "^7.0.0",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.1"
   }
 }

@@ -13,6 +13,12 @@ var jwt = require('jsonwebtoken')
 router.use(jsend.middleware);
 
 router.post('/', async (req, res) => {
+
+    // #swagger.tags = ['Data']
+    // #swagger.description = "Adding roles, memberships and a default admin user to database."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 404, 500]
+
     try {
         const result = await populateService.populateDatabase();
         if (!result.success) {

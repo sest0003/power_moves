@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const UserService = require('./UserService');
 
 class OrderService {
-    constructor(db, userService) {
+    constructor(db, userService, productService) {
         this.client = db.sequelize;
         this.Cart = db.Cart;
         this.CartProduct = db.CartProduct;
@@ -17,7 +17,7 @@ class OrderService {
         return orders;
     }
 
-async createOrder(cartId, user) {
+async createOrder(cartId, userId) {
     // Find Cart
     const cart = await this.Cart.findOne({
      where: { id: cartId, isCheckedOut: false },
@@ -25,8 +25,19 @@ async createOrder(cartId, user) {
     });
 
     if(!cart) {
-     throw new Error("Cart not found or already checked out.")
-    } 
+        throw new Error("Cart not found or already checked out.")
+       } 
+
+     // Find User
+     const user = await this.Cart.findOne({
+        where: { id: userId }
+       });
+
+       if(!user) {
+        throw new Error("user not found.")
+       } 
+
+   
 
     const orderNumber = crypto.randomBytes(4).toString('hex');
 

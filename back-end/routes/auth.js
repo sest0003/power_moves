@@ -14,6 +14,12 @@ router.use(jsend.middleware);
 
 // Post for new users to register / signup
 router.post("/register", jsonParser, 
+  
+    // #swagger.tags = ['Auth']
+    // #swagger.description = "register user and creats a acoount i the database"
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 500]
+
   // Validation of creditials using express-validator
   [  
   check('email')
@@ -49,6 +55,11 @@ router.post("/register", jsonParser,
 
 // Post for registered users to be able to login
 router.post("/login", jsonParser, async (req, res, next) => {
+
+    // #swagger.tags = ['Auth']
+    // #swagger.description = "login user"
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 500]
 
   const { email, password } = req.body;
   

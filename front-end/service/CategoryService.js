@@ -3,7 +3,7 @@ const express = require('express');
 
 async function fetchCategories(req) {
     try {
-        const response = await axios.get('http://localhost:3000/categories/all', {
+        const response = await axios.get('http://localhost:3000/categories', {
             headers: { Authorization: req.user.token }, // sending the token to the backend app
         }); 
         const data = response?.data?.data?.data || [];

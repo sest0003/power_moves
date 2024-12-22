@@ -13,6 +13,11 @@ router.use(jsend.middleware);
 
 router.get('/', isAuth, isAdmin, async (req, res) => {
 
+    // #swagger.tags = ['Brands']
+    // #swagger.description = "Gets the list of all available brands."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 404, 500]
+
     try {
         let brands = await brandService.getAll();
         if (!brands) {
@@ -34,6 +39,20 @@ router.get('/', isAuth, isAdmin, async (req, res) => {
 });
 
 router.post('/add', isAuth, isAdmin, jsonParser, async (req, res) => {
+
+    // #swagger.tags = ['Brands']
+    // #swagger.description = "Creates a new brand."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 404, 500]
+      /* #swagger.parameters['body'] =  {
+    "name": "body",
+    "in": "body",
+    required: true,
+      "schema": {
+        $ref: "#/definitions/Brand"
+      }
+    }
+  */
 
     const { name } = req.body;
 
@@ -61,6 +80,11 @@ router.post('/add', isAuth, isAdmin, jsonParser, async (req, res) => {
 });
 
 router.put('/edit/:brandId', isAdmin, isAuth, async (req, res) => {
+
+    // #swagger.tags = ['Brands']
+    // #swagger.description = "Edits an existing brand."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 404, 500]
 
     const { brandId } = req.params;
     const{ name } = req.body;
@@ -94,6 +118,11 @@ router.put('/edit/:brandId', isAdmin, isAuth, async (req, res) => {
 });
 
 router.delete('/delete/:brandId', isAuth, isAdmin, async (req, res) => {
+
+    // #swagger.tags = ['Brands']
+    // #swagger.description = "Deletes a brand."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 404, 500]
   
     const { brandId } = req.params;
 

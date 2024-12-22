@@ -6,6 +6,12 @@ const { isAuthAdmin } = require('../middleware/middleware');
 
 
 router.get('/', isAuthAdmin, async function(req, res, next) {
+  
+    // #swagger.tags = ['Categories']
+    // #swagger.description = "Gets the list of all available Categories."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 404, 500]
+  
   try {
         const categories = await categoryService.fetchCategories(req);
         res.render('categories', { categories });
@@ -20,6 +26,11 @@ router.get('/', isAuthAdmin, async function(req, res, next) {
 
  router.post('/add', isAuthAdmin, async function(req, res, next) {
   
+    // #swagger.tags = ['Categories']
+    // #swagger.description = "Creates a new category."
+    // #swagger.produces = ['JSON']
+    // #swagger.responses = [200, 404, 500]
+
   const { name } = req.body;
 
   try {
@@ -40,6 +51,10 @@ router.get('/', isAuthAdmin, async function(req, res, next) {
 
  router.post('/edit', isAuthAdmin, async function(req, res, next) {
   
+  // #swagger.tags = ['Categories']
+  // #swagger.description = "Edits an existing category."
+  // #swagger.produces = ['JSON']
+  // #swagger.responses = [200, 404, 500]
   const {id, name} = req.body;
   
   try {
@@ -60,6 +75,11 @@ router.get('/', isAuthAdmin, async function(req, res, next) {
 
  router.post('/delete', isAuthAdmin, async function(req, res, next) {
   
+  // #swagger.tags = ['Categories']
+  // #swagger.description = "Deletes a category."
+  // #swagger.produces = ['JSON']
+  // #swagger.responses = [200, 404, 500]
+
   const {categoryId} = req.body;
   
   try {
