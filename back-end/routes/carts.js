@@ -67,15 +67,16 @@ router.post('/add/:productId/:units', isAuth, jsonParser, async (req, res) => {
     }
 });
 
-router.post('/checkout/now/:cartId/:userId', isAuth, jsonParser, async (req, res) => {
+router.post('/checkout/now/:cartId/', isAuth, jsonParser, async (req, res) => {
     
     // #swagger.tags = ['Cart']
     // #swagger.description = "checkout cart and creates a order."
     // #swagger.produces = ['JSON']
     // #swagger.responses = [200, 404, 500]
     
-    const { cartId, userId } = req.params;
-    const user = req.user
+    const { cartId } = req.params;
+    const userId = req.user.id
+  
     
     try { 
         // Create Order

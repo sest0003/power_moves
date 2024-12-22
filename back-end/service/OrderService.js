@@ -29,7 +29,7 @@ async createOrder(cartId, userId) {
        } 
 
      // Find User
-     const user = await this.Cart.findOne({
+     const user = await this.User.findOne({
         where: { id: userId }
        });
 
