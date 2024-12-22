@@ -31,11 +31,12 @@ class CartService {
         if(product.stock < units) {
             return {message: "Not enough in stock."};
         } 
-
+     
          // Find User
-        const user = await this.Cart.findOne({
+        const user = await this.User.findOne({
             where: { id: userId }
         });
+     
 
         if(!user) {
             return {message: "you must login to add products to your cart"};
