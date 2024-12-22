@@ -80,7 +80,7 @@ class CartService {
         await this.CartProduct.bulkCreate(cartProducts);
 
         // Update stock i product
-        productService.updateStock(productId, units);
+        this.productService.updateStock(productId, units);
             
         return cart;
     }
