@@ -60,6 +60,18 @@ module.exports = (sequelize, Sequelize) => {
           min: 2,
           max: 5
         }
+      },
+      goals: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+      },
+      assists: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+      },
+      saves: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
       }
     }, {
       tableName: 'players',

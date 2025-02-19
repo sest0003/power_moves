@@ -38,6 +38,18 @@
     z-index: 1;
 }
 
+.moves {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000000;
+    width: 2vw;
+    height: 2vw;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 70%;
+}
+
 .team-info-card {
     display: flex;
     justify-content: space-between;

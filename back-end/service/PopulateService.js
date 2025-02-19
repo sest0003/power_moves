@@ -135,6 +135,9 @@ class PopulateService {
                 let totalWonPenalties = 0, totalCausedPenalties = 0;
                 let totalMissedPenalties = 0, totalScoredPenalties = 0, totalSavedPenalties = 0;
                 let isCaptain = false;
+                let totalGoals = 0;
+                let totalAssists = 0;
+                let totalSaves = 0;
     
                 for (const stat of playerStats) {
                     if (stat.games) {
@@ -190,6 +193,12 @@ class PopulateService {
                         totalScoredPenalties += stat.penalty.scored || 0;
                         totalSavedPenalties += stat.penalty.saved || 0;
                     }
+
+                    if (stat.goals) {
+                        totalGoals += stat.goals.total || 0;
+                        totalAssists += stat.goals.assists || 0;
+                        totalSaves += stat.goals.saves || 0;
+                    }
                 }
     
                 const averageRating = numOfRatings > 0 ? totalRating / numOfRatings : 0.0;
@@ -226,6 +235,9 @@ class PopulateService {
                         missedPenality: totalMissedPenalties,
                         scoredPenality: totalScoredPenalties,
                         savedPenality: totalSavedPenalties,
+                        goals: totalGoals,
+                        assists: totalAssists,
+                        saves: totalSaves,
                         team_id: team.teamId
                     }
                 });
@@ -366,12 +378,14 @@ class PopulateService {
         score += shotAccuracy;
         score += player.scoredPenality * 3;
         
-        // Dribblingar
+        // Lägg till mål och assists i beräkningen
+        score += player.goals * 2;  // 2 poäng per mål
+        score += player.assists * 1.5;  // 1.5 poäng per assist
+        
         const dribbleSuccess = player.dribbleAtempts > 0 ? 
             (player.dribblesSucceeded / player.dribbleAtempts) * 20 : 0;
         score += dribbleSuccess;
         
-        // Nyckelpassningar
         score += player.keyPasses * 0.5;
         
         return score;
@@ -382,26 +396,27 @@ class PopulateService {
         
         switch(player.position.toLowerCase()) {
             case 'defender':
-                // Extra poäng för offensiva prestationer
                 score += player.scoredPenality * 5;
                 score += player.keyPasses * 1;
+                score += player.goals * 3;  // Extra poäng för mål som försvarare
                 break;
                 
             case 'midfielder':
-                // Extra poäng för både defensiva och offensiva prestationer
                 score += player.blocks * 1;
                 score += player.scoredPenality * 3;
+                score += player.assists * 2;  // Extra poäng för assists som mittfältare
+                score += player.goals * 2;    // Lägg till poäng för mål som mittfältare
                 break;
                 
             case 'attacker':
-                // Extra poäng för defensiva insatser
                 score += player.interceptions * 1;
                 score += player.blocks * 1;
+                score += player.goals * 1.5;  // Bonus för mål som forward
                 break;
                 
             case 'goalkeeper':
-                // Extra poäng för assist och liknande
                 score += player.keyPasses * 2;
+                score += player.saves * 2;  // Poäng för räddningar
                 break;
         }
         

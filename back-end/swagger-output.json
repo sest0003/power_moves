@@ -351,12 +351,12 @@
         }
       }
     },
-    "/players/{id}/pick": {
+    "/players/{teamId}/pick": {
       "post": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "teamId",
             "in": "path",
             "required": true,
             "type": "string"
