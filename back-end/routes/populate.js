@@ -1,7 +1,6 @@
 var express = require('express');
 var jsend = require('jsend');
 var router = express.Router();
-var { check, validationResult } = require('express-validator')
 var db = require("../models");
 var crypto = require('crypto');
 var PopulateService = require("../service/PopulateService")
@@ -12,26 +11,52 @@ var jwt = require('jsonwebtoken')
 
 router.use(jsend.middleware);
 
-router.post('/', async (req, res) => {
-
-    // #swagger.tags = ['Data']
-    // #swagger.description = "Adding roles, memberships and a default admin user to database."
-    // #swagger.produces = ['JSON']
-    // #swagger.responses = [200, 404, 500]
-
+router.post("/", async (req, res) => {
     try {
         const result = await populateService.populateDatabase();
-        if (!result.success) {
-            return res.jsend.fail({message: result.message});
+
+        if (!result.success) {  
+            return res.jsend.fail({ message: result.message });
         }
-        res.jsend.success({message: result.message});
-        } catch (err) {
-            console.error(err);
-            res.jsend.error("Error populating the database.");
-        }
+
+        res.jsend.success({ message: result.message });
+
+    } catch (err) {
+        console.error("❌ Route error:", err);
+        res.jsend.error({ message: "Error populating the database.", error: err.message });
+    }
 });
 
+router.post("/stars", async (req, res) => {
+    try {
+        const result = await populateService.calculatePlayerStars();
 
+        if (!result.success) {  
+            return res.jsend.fail({ message: result.message });
+        }
 
+        res.jsend.success({ message: result.message });
+
+    } catch (err) {
+        console.error("❌ Route error:", err);
+        res.jsend.error({ message: "Error calculating stars.", error: err.message });
+    }
+});
+
+router.post("/moves", async (req, res) => {
+    try {
+        const result = await populateService.calculateMoves();
+
+        if (!result.success) {  
+            return res.jsend.fail({ message: result.message });
+        }
+
+        res.jsend.success({ message: result.message });
+
+    } catch (err) {
+        console.error("❌ Route error:", err);
+        res.jsend.error({ message: "Error calculating moves.", error: err.message });
+    }
+});
 
 module.exports = router;

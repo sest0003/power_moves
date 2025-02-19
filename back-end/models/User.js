@@ -1,51 +1,63 @@
+const jwt = require('jsonwebtoken');
+
 module.exports = (sequelize, Sequelize) => {
     const User = sequelize.define('User', {
-      firstname: {
-        type: Sequelize.DataTypes.STRING,
-        allowNull: false
-      },
-      lastname: {
-        type: Sequelize.DataTypes.STRING,
-        allowNull: false
-      },
-      username: {
-        type: Sequelize.DataTypes.STRING,
-        allowNull: false,
-        unique: true
-      },
-      email: {
-        type: Sequelize.DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-        validate: {
-          isEmail: true
+        name: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        email: {
+            type: Sequelize.STRING,
+            allowNull: false,
+            unique: true,
+            validate: {
+                isEmail: true
+            }
+        },
+        password: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        points: {
+            type: Sequelize.INTEGER,
+            defaultValue: 0
+        },
+        teamId: {
+            type: Sequelize.INTEGER,
+            allowNull: true,
+            field: 'team_id',
+            references: {
+                model: 'teams',
+                key: 'team_id'
+            }
         }
-      },
-      adress: {
-        type: Sequelize.DataTypes.STRING,
-        allowNull: false
-      },
-      phone: {
-        type: Sequelize.DataTypes.INTEGER,
-        allowNull: false
-      },
-      password: {
-        type: Sequelize.DataTypes.BLOB,
-        allowNull: false
-      },
-      salt: {
-        type: Sequelize.DataTypes.BLOB,
-        allowNull: false
-      },
-      sumOfUnits: {
-        type: Sequelize.DataTypes.INTEGER
-      }
-    },{});
+    }, {
+        tableName: 'users',
+        timestamps: true,
+        underscored: true,
+    });
 
-    User.associate = (models) => {
-        User.belongsTo(models.Role, { foreignKey: 'roleId' });
-        User.belongsTo(models.Membership, { foreignKey: 'membershipId' });
-        User.hasMany(models.Order, { foreignKey: 'userId' });
-};
+    // Instance method to generate JWT token
+    User.prototype.generateAuthToken = function() {
+        return jwt.sign(
+            { 
+                id: this.id,
+                email: this.email,
+                name: this.name 
+            }, 
+            process.env.JWT_SECRET,
+            { expiresIn: '24h' }
+        );
+    };
+
+    // Definiera associations här om det behövs
+    User.associate = function(models) {
+        User.belongsTo(models.Team, {
+            foreignKey: 'team_id',
+            targetKey: 'teamId',
+            as: 'team'
+        });
+    };
+
     return User;
 };

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head.ejs') %>
+    <title>Team Players</title>
+    <link rel="stylesheet" href="/css/players.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <%- include('./partials/navbar.ejs') %>
+
+    
+    <div class="team-header">
+        <div>
+            <h1 class="team-title">
+                <img src="<%= team.logo %>" alt="<%= team.name %>" class="team-logo">
+                <%= team.name %>
+            </h1>
+            
+            <div class="team-stats-card">
+                <div class="stat-item">
+                    <div class="stat-label">Standings</div>
+                    <div class="stat-value">#<%= team.rank %></div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Points</div>
+                    <div class="stat-value"><%= team.points %></div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Total Moves</div>
+                    <div class="stat-value"><%= totalMoves %></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-buttons container">
+        <button class="btn btn-primary btn-lg pick-team-btn" <%= user && user.teamId === team.teamId ? 'disabled' : '' %>>
+            <i class="fas fa-users"></i> <%= user && user.teamId === team.teamId ? 'Team Selected' : 'Pick Team' %>
+        </button>
+    </div>
+
+    <div class="container player-container">
+        <div class="row">
+            <% players.forEach(function(player) { %>
+                <div class="col-md-3 col-sm-6">
+                    <div class="card player-card">
+                        <div class="card-top">
+                            <div class="top-info">
+                                <div class="moves"><%= player.moves %></div>
+                                <div class="player-position"><%= player.position %></div>
+                            </div>
+                            <% if (player.photo) { %>
+                                <img src="<%= player.photo %>" class="card-img-top player-img" alt="<%= player.name %>">
+                            <% } %>
+                            <div class="player-stars">
+                                <% for(let i = 0; i < player.stars; i++) { %>
+                                    <span class="star">⭐</span>
+                                <% } %>
+                            </div>
+                            <% if (player.captain) { %>
+                                <div class="captain-badge">Captain</div>
+                            <% } %>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title mb-1"><%= player.name %></h5>
+                            <p class="card-text text-muted mb-0">
+                                <%= player.nationality %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+
+    <%- include('./partials/scripts.ejs') %>
+    <script>
+    document.querySelector('.pick-team-btn').addEventListener('click', async function() {
+        try {
+            const teamId = '<%= team.teamId %>';
+            const response = await fetch(`/players/${teamId}/pick`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+            
+            if (data.success) {
+                alert('Team selected successfully!');
+                window.location.reload();
+            } else {
+                alert('Error selecting team');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error selecting team');
+        }
+    });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+    <title>Premier League Teams</title>
+    <link rel="stylesheet" href="/css/teams.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <%- include('./partials/navbar.ejs') %>
+    
+    <div class="premier-league-header">
+      <div class="container">
+        <h1 class="text-center">Premier League Standings</h1>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="standings-table">
+        <div class="standings-header">
+          <div class="rank-cell">Standings</div>
+          <div class="team-cell"></div>
+          <div class="stats-cell">
+            <div class="header-points">Points</div>
+            <div class="header-moves">Moves</div>
+          </div>
+        </div>
+        <% teams.forEach(function(team, index) { %>
+          <div class="standings-row">
+            <div class="rank-cell"><%= team.rank %></div>
+            <div class="team-cell">
+              <img src="<%= team.logo %>" alt="<%= team.name %>" class="team-logo">
+              <a href="/players/<%= team.teamId %>" class="team-name">
+                <%= team.name %>
+              </a>
+            </div>
+            <div class="stats-cell">
+              <div class="team-points"><%= team.points %></div>
+              <div class="team-moves"><%= team.totalMoves %></div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+
+    <%- include('./partials/scripts.ejs') %>
+  </body>
+</html>

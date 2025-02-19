@@ -7,25 +7,35 @@ var express = require('express');
 var cookieParser = require('cookie-parser');
 var path = require('path');
 var logger = require('morgan');
-const cors = require('cors'); // adding cors so the two apps can send credentials between the apps
+const flash = require('express-flash');
+const session = require('express-session');
+const auth = require('./middleware/auth');
 
 // Routers
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const authRouter = require('./routes/auth');
+const userRoutes = require('./routes/userRoutes');
 const populateRouter = require('./routes/populate')
-const productRouter = require('./routes/products');
-const cartRouter = require('./routes/carts');
-const orderRouter = require('./routes/orders');
-const brandRouter = require('./routes/brands');
-const categoryRouter = require('./routes/categories');
-const membershipRouter = require('./routes/memberships');
+const teamsRouter = require('./routes/teams');
+const playersRouter = require('./routes/players');
+const authRoutes = require('./routes/authRoutes');
 
 // Initialize database
 var db = require('./models');
-// Set it to false to avoid deleting and recreating the tables every time
-db.sequelize.sync({ force: false });
+
+// Först, skapa alla tabeller
+db.sequelize.sync({ 
+    alter: true,
+    logging: console.log 
+}).then(() => {
+    console.log("Database tables updated");
+}).catch(err => {
+    console.error("Error updating database:", err);
+});
 var app = express();
+
+
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,26 +46,35 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, 'public')));
-
-// implementing cors
-app.use(cors({
-  origin: 'http://localhost:3300',
-  credentials: true,
+app.use(express.static(__dirname + '/node_modules/bootstrap/dist/css')); // Adding mapping for bootstrap
+app.use(express.static(__dirname + '/node_modules/bootstrap/dist/js')); // js
+app.use(express.static(__dirname + '/node_modules/jquery/dist')); // jquery
+app.use(express.static(__dirname + '/node_modules/popper.js/dist/umd')); // popper
+// reg.flash function 
+app.use(session({
+  secret: 'sest21A',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {secure: false}
 }));
+
+app.use(flash());
+
+
 
 app.use(cookieParser());
 
-// Basic endpoints for routers
+// Protected routes - lägg dessa FÖRE route definitions
+app.use('/teams', auth);
+app.use('/players', auth);
+
+// Routes
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/auth', authRouter);
+app.use('/auth', authRoutes);
+app.use('/api/users', userRoutes);
 app.use('/init', populateRouter);
-app.use('/products', productRouter);
-app.use('/cart', cartRouter);
-app.use('/orders', orderRouter);
-app.use('/brands', brandRouter);
-app.use('/categories', categoryRouter);
-app.use('/memberships',  membershipRouter);
+app.use('/teams', teamsRouter);
+app.use('/players', playersRouter);
 
 // Swagger /doc
 app.use(bodyParser.json())

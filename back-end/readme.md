@@ -28,7 +28,6 @@ If you are unsure of any instructions for the course assignment, contact out to 
 - localhost is set to 3000
 - To run the app you need to install the following:
 npm install jsend
-npm install dotenv
 npm install sequelize mysql mysql2
 npm install jsonwebtoken
 npm install swagger-autogen swagger-ui-express

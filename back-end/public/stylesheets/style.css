@@ -1,8 +1,20 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.player-stars {
+    margin-top: 5px;
 }
 
-a {
-  color: #00B7FF;
+.star {
+    font-size: 14px;
+    margin-right: 2px;
 }
+
+.player-stars .fa-star {
+    color: #FFD700; /* Gul färg för stjärnorna */
+    margin-right: 2px;
+    filter: drop-shadow(0 0 2px rgba(0,0,0,0.3)); /* Lägg till en subtil skugga */
+}
+
+.player-rating {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+} 

@@ -15,127 +15,63 @@
       "get": {
         "description": "",
         "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/users/": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "description": "Gets the list of all available users.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
           "401": {
             "description": "Unauthorized"
           },
-          "200, 404, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/users/edit/{userId}": {
-      "put": {
-        "tags": [
-          "Users"
-        ],
-        "description": "Editing user role on existing user.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 404, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/auth/register": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "description": "register user and creats a acoount i the database",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "firstname": {
-                  "example": "any"
-                },
-                "lastname": {
-                  "example": "any"
-                },
-                "username": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "adress": {
-                  "example": "any"
-                },
-                "phone": {
-                  "example": "any"
-                },
-                "password": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200, 500": {
-            "description": ""
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
     },
     "/auth/login": {
+      "get": {
+        "description": "",
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/signup": {
+      "get": {
+        "description": "",
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/users/signup": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
-        "description": "login user",
-        "produces": [
-          "json"
-        ],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/users/login": {
+      "post": {
+        "description": "",
         "parameters": [
           {
             "name": "body",
@@ -154,811 +90,295 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/users/logout": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           },
-          "200, 500": {
-            "description": ""
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/users/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/users/{id}/points": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "points": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/users/{id}/team": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "teamId": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
     },
     "/init/": {
       "post": {
-        "tags": [
-          "Data"
-        ],
-        "description": "Adding roles, memberships and a default admin user to database.",
-        "produces": [
-          "json"
-        ],
+        "description": "",
         "responses": {
-          "200, 404, 500": {
-            "description": ""
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
     },
-    "/products/": {
+    "/init/stars": {
+      "post": {
+        "description": "",
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/init/moves": {
+      "post": {
+        "description": "",
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/teams/": {
       "get": {
-        "tags": [
-          "Products"
-        ],
-        "description": "Gets the list of all available products.",
-        "produces": [
-          "json"
-        ],
+        "description": "",
         "responses": {
-          "200, 500": {
-            "description": ""
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
     },
-    "/products/{productId}": {
+    "/players/{teamId}": {
       "get": {
-        "tags": [
-          "Products"
-        ],
-        "description": "Gets one product.",
-        "produces": [
-          "json"
-        ],
+        "description": "",
         "parameters": [
           {
-            "name": "productId",
+            "name": "teamId",
             "in": "path",
             "required": true,
             "type": "string"
           }
         ],
         "responses": {
-          "200, 500": {
-            "description": ""
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
     },
-    "/products/search/category/{categoryId}": {
+    "/players/{id}/pick": {
       "post": {
-        "tags": [
-          "Products"
-        ],
-        "description": "Gets the list of all products by category.",
-        "produces": [
-          "json"
-        ],
+        "description": "",
         "parameters": [
           {
-            "name": "categoryId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/products/search/brand/{brandId}": {
-      "post": {
-        "tags": [
-          "Products"
-        ],
-        "description": "Gets the list of all products by brand.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "brandId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/products/search/{name}": {
-      "post": {
-        "tags": [
-          "Products"
-        ],
-        "description": "Gets the list of all products by search name.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "name",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/products/add": {
-      "post": {
-        "tags": [
-          "Products"
-        ],
-        "description": "adds one product to database.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "any"
-                },
-                "description": {
-                  "example": "any"
-                },
-                "imageUrl": {
-                  "example": "any"
-                },
-                "unitPrice": {
-                  "example": "any"
-                },
-                "stock": {
-                  "example": "any"
-                },
-                "brandId": {
-                  "example": "any"
-                },
-                "categoryId": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 401, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/products/edit/{productId}": {
-      "put": {
-        "tags": [
-          "Products"
-        ],
-        "description": "edit one product in the database.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "productId",
+            "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
           },
           {
-            "name": "authorization",
+            "name": "Authorization",
             "in": "header",
             "type": "string"
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK"
+          },
           "401": {
             "description": "Unauthorized"
           },
-          "200, 401, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/cart/add/{productId}/{units}": {
-      "post": {
-        "tags": [
-          "Cart"
-        ],
-        "description": "Adds a product to a cart",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "productId",
-            "in": "path",
-            "required": true,
-            "type": "string"
+          "404": {
+            "description": "Not Found"
           },
-          {
-            "name": "units",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 404, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/cart/checkout/now/{cartId}/{userId}": {
-      "post": {
-        "tags": [
-          "Cart"
-        ],
-        "description": "checkout cart and creates a order.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "cartId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 404, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/orders/": {
-      "get": {
-        "tags": [
-          "Orders"
-        ],
-        "description": "Gets the list of all available orders.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 404, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/orders/{orderId}": {
-      "put": {
-        "tags": [
-          "Orders"
-        ],
-        "description": "Edits an existing order.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 404, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/orders/{orderId}/": {
-      "delete": {
-        "tags": [
-          "Orders"
-        ],
-        "description": "Deletes a order.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 404, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/brands/": {
-      "get": {
-        "tags": [
-          "Brands"
-        ],
-        "description": "Gets the list of all available brands.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 404, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/brands/add": {
-      "post": {
-        "tags": [
-          "Brands"
-        ],
-        "description": "Creates a new brand.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Brand"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 404, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/brands/edit/{brandId}": {
-      "put": {
-        "tags": [
-          "Brands"
-        ],
-        "description": "Edits an existing brand.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "brandId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 404, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/brands/delete/{brandId}": {
-      "delete": {
-        "tags": [
-          "Brands"
-        ],
-        "description": "Deletes a brand.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "brandId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 404, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/categories/": {
-      "get": {
-        "tags": [
-          "Categories"
-        ],
-        "description": "Gets the list of all available Categories.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 404, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/categories/add": {
-      "post": {
-        "tags": [
-          "Categories"
-        ],
-        "description": "Creates a new category.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Product"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 404, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/categories/edit/{categoryId}": {
-      "put": {
-        "tags": [
-          "Categories"
-        ],
-        "description": "Edits an existing category.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "categoryId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 404, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/categories/delete/{categoryId}": {
-      "delete": {
-        "tags": [
-          "Categories"
-        ],
-        "description": "Deletes a category.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "categoryId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 404, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/memberships/": {
-      "get": {
-        "tags": [
-          "Memberships"
-        ],
-        "description": "Gets the list of all available memberships.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 404, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/memberships/add": {
-      "post": {
-        "tags": [
-          "Memberships"
-        ],
-        "description": "Creates a new membership.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "example": "any"
-                },
-                "discount": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 404, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/memberships/edit/{membershipId}": {
-      "put": {
-        "tags": [
-          "Memberships"
-        ],
-        "description": "Edits an existing membership.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "membershipId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "example": "any"
-                },
-                "discount": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 404, 500": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/memberships/delete/{membershipId}": {
-      "delete": {
-        "tags": [
-          "Memberships"
-        ],
-        "description": "Deleting an existing membership.",
-        "produces": [
-          "json"
-        ],
-        "parameters": [
-          {
-            "name": "membershipId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "200, 404, 500": {
-            "description": ""
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
