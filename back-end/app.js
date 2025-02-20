@@ -18,6 +18,9 @@ const populateRouter = require('./routes/populate')
 const teamsRouter = require('./routes/teams');
 const playersRouter = require('./routes/players');
 const authRoutes = require('./routes/authRoutes');
+const userTeamRouter = require('./routes/userTeam');
+const menuRoutes = require('./routes/menuRoutes');
+const rulesRoutes = require('./routes/rulesRoutes');
 
 // Initialize database
 var db = require('./models');
@@ -75,6 +78,9 @@ app.use('/api/users', userRoutes);
 app.use('/init', populateRouter);
 app.use('/teams', teamsRouter);
 app.use('/players', playersRouter);
+app.use('/myteam', userTeamRouter);
+app.use('/menu', menuRoutes);
+app.use('/rules', rulesRoutes);
 
 // Swagger /doc
 app.use(bodyParser.json())

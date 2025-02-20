@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head.ejs') %>
+    <title>Power Moves</title>
+    <link rel="stylesheet" href="/css/menu.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <div class="menu-container">
+        <div class="menu-content">
+            <div class="menu-header">
+                <h1>A3</h1>
+                <p>Championship Fantasy Game</p>
+            </div>
+            
+            <div class="menu-buttons">
+                <a href="/myteam" class="menu-button">
+                    <div class="button-content">
+                        <i class="fas fa-users"></i>
+                        <span>My Team</span>
+                    </div>
+                    <div class="button-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+                
+                <a href="/teams" class="menu-button">
+                    <div class="button-content">
+                        <i class="fas fa-trophy"></i>
+                        <span>Championship</span>
+                    </div>
+                    <div class="button-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+                
+                <a href="/teams" class="menu-button">
+                    <div class="button-content">
+                        <i class="fas fa-list-ol"></i>
+                        <span>Standings</span>
+                    </div>
+                    <div class="button-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+
+                <a href="/rules" class="menu-button">
+                    <div class="button-content">
+                        <i class="fas fa-book"></i>
+                        <span>Rules</span>
+                    </div>
+                    <div class="button-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <%- include('./partials/scripts.ejs') %>
+</body>
+</html> 

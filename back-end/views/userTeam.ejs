@@ -2,19 +2,18 @@
 <html lang="en">
 <head>
     <%- include('./partials/head.ejs') %>
-    <title>Team Players</title>
+    <title>My Team</title>
     <link rel="stylesheet" href="/css/players.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <%- include('./partials/navbar.ejs') %>
 
-    
     <div class="team-header">
         <div>
             <h1 class="team-title">
+                My Team
                 <img src="<%= team.logo %>" alt="<%= team.name %>" class="team-logo">
-                <%= team.name %>
             </h1>
             
             <div class="team-stats-card">
@@ -36,11 +35,8 @@
         </div>
     </div>
 
-    <div class="action-buttons container">
-        <button class="btn btn-primary btn-lg pick-team-btn" <%= user && user.teamId === team.teamId ? 'disabled' : '' %>>
-            <i class="fas fa-users"></i> <%= user && user.teamId === team.teamId ? 'Team Selected' : 'Pick Team' %>
-        </button>
-    </div>
+    <h5 class="team-name"><%= team.name %></h5>
+
 
     <div class="container player-container">
         <div class="row">
@@ -77,33 +73,5 @@
     </div>
 
     <%- include('./partials/scripts.ejs') %>
-    <script>
-    document.querySelector('.pick-team-btn').addEventListener('click', async function() {
-        try {
-            const teamId = '<%= team.teamId %>';
-            const response = await fetch(`/players/${teamId}/pick`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            const data = await response.json();
-            
-            if (data.success) {
-                alert('Team selected successfully!');
-                window.location.reload();
-            } else {
-                alert(data.message || 'Error selecting team');
-                if (data.message === 'You have already picked a team') {
-                    window.location.reload();
-                }
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Error selecting team');
-        }
-    });
-    </script>
 </body>
 </html> 

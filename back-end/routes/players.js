@@ -6,7 +6,7 @@ const auth = require('../middleware/auth');  // Importera auth middleware
 router.get('/:teamId', async function(req, res, next) {
     try { 
         const teamId = req.params.teamId;
-        console.log('Looking for players with teamId:', teamId);
+        
 
         // Hämta team baserat på team_id kolumnen
         const team = await db.Team.findOne({
@@ -29,7 +29,6 @@ router.get('/:teamId', async function(req, res, next) {
         // Beräkna total moves
         let totalMoves = players.reduce((sum, player) => sum + (player.moves || 0), 0);
 
-        console.log(`Found ${players.length} players for team ${team.name}`);
 
         res.render('players', { 
             players,
@@ -48,9 +47,20 @@ router.get('/:teamId', async function(req, res, next) {
 // Ny route för att välja team
 router.post('/:teamId/pick', auth, async function(req, res) {
     try {
+        const userId = req.user.id;
+        
+        // Kolla om användaren redan har ett team
+        const user = await db.User.findByPk(userId);
+        if (user.team_id) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'You have already picked a team' 
+            });
+        }
+
         const teamId = req.params.teamId;
         const team = await db.Team.findOne({
-            where: { teamId: teamId }  // Använd teamId istället för team_id
+            where: { teamId: teamId }
         });
 
         if (!team) {
@@ -60,11 +70,9 @@ router.post('/:teamId/pick', auth, async function(req, res) {
             });
         }
 
-        const userId = req.user.id;
-
         // Uppdatera användarens team
         await db.User.update(
-            { team_id: teamId },  // Använd det mottagna teamId
+            { team_id: teamId },
             { where: { id: userId } }
         );
 
